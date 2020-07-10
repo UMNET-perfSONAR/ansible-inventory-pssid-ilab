@@ -12,7 +12,7 @@
 [all:vars]
 ansible_become=True
 ansible_become_user=root
-ansible_become_method=su
+#ansible_become_method=su
 
 [pSSID-testpoints]
 198.111.224.154
