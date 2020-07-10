@@ -2,7 +2,18 @@
 
 **Quick Start**:
 
-You must have an account on each of the MiServers and be in the not2fa group
+Install Ubuntu 18 64 bit version:
+
+https://ubuntu.com/download/raspberry-pi
+
+Install on SD Card as per Ubuntu's instructions.
+
+log on as ubuntu
+
+'''
+sudo -s
+passwd
+'''
 
 Clone the playbook:
 
