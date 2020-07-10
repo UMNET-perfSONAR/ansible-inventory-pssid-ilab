@@ -12,6 +12,8 @@
       - ithomps
       - kostyak
       - isaiyara
+    - address: 198.111.224.154
+    - gateway: 198.111.224.145
 
   tasks:
 
@@ -30,9 +32,36 @@
         name: "{{ item }}"
       with_items: "{{ uids }}"
 
-    - name: auth keys
-      authorized_key:
-        user: "{{ item }}"
-        key: "{{ lookup('file', '/home/{{ item }}/.ssh/id_rsa.pub') }}"
-      with_items: "{{ uids }}"
-      ignore_errors: yes
+    #- name: auth keys
+    #  authorized_key:
+    #    user: "{{ item }}"
+    #    key: "{{ lookup('file', '/home/{{ item }}/.ssh/id_rsa.pub') }}"
+    #  with_items: "{{ uids }}"
+    #  ignore_errors: yes
+
+    - name: disable dhcp
+      lineinfile:
+        path: /etc/netplan/50-cloud-init.yaml
+        regexp: '^(.*)dhcp4'
+        line: '            dhcp4: no'
+
+    # XXX switch to proper variables
+    - name: add netplan config
+      blockinfile:
+        path: /etc/netplan/50-cloud-init.yaml
+        insertafter: 'dhcp4: no'
+        block: |
+          # Ansible block
+                      addresses: [{{ address }}/20]
+                      gateway4: {{ gateway }}
+                      nameservers:
+                          addresses: [127.0.0.53, 8.8.8.8]
+                      match:
+                          macaddress: dc:a6:32:07:63:47
+                      set-name: eth0
+                      routes:
+                      - to: 141.211.160.28
+                        via: {{ gateway }} 
+
+    - name: bring up wireless interface
+      command: ip link set wlan0 up
