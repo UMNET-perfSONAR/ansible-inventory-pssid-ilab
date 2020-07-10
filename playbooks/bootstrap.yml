@@ -32,12 +32,12 @@
         name: "{{ item }}"
       with_items: "{{ uids }}"
 
-    #- name: auth keys
-    #  authorized_key:
-    #    user: "{{ item }}"
-    #    key: "{{ lookup('file', '/home/{{ item }}/.ssh/id_rsa.pub') }}"
-    #  with_items: "{{ uids }}"
-    #  ignore_errors: yes
+    - name: auth keys
+      authorized_key:
+        user: "{{ item }}"
+        key: "{{ lookup('file', '/home/{{ item }}/.ssh/id_rsa.pub') }}"
+      with_items: "{{ uids }}"
+      ignore_errors: yes
 
     - name: disable dhcp
       lineinfile:
