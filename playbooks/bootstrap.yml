@@ -65,3 +65,10 @@
 
     - name: bring up wireless interface
       command: ip link set wlan0 up
+
+    - name: ensure hostname in in hosts file
+      lineinfile:
+        path: /etc/hosts
+        regexp: '^127\.0\.0\.1'
+        line: '127.0.0.1 localhost ubuntu' 
+        insertbefore: BOF
