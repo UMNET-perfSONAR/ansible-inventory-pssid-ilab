@@ -72,3 +72,24 @@
         regexp: '^127\.0\.0\.1'
         line: '127.0.0.1 localhost ubuntu' 
         insertbefore: BOF
+
+    - name: create wpa_supplicant
+      file:
+        path: /etc/wpa_supplicant/wpa_supplicant.conf
+        state: touch
+
+    # XXX pull wifi password from secerts file
+    - name: fill in basic info
+      blockinfile:
+        path: /etc/wpa_supplicant/wpa_supplicant.conf
+        block: |
+          ctrl_interface=/var/run/wpa_supplicant
+          update_config=1
+          network={
+              bssid=ADDRESS
+              ssid=SSID_NAME
+              identity="wifi-pi-test"
+              password="redacted_pass"
+              key_mgmt=WPA-EAP
+          }
+        insertbefore: BOF
