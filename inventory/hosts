@@ -16,3 +16,11 @@ ansible_become_user=root
 
 [pSSID-testpoints]
 198.111.224.154
+
+[elastic]
+pssid-elk.miserver.it.umich.edu
+
+[elastic:vars]
+ansible_become=True
+ansible_become_user=root
+ansible_become_method=sudo

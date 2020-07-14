@@ -63,6 +63,15 @@ ansible-playbook \
   ansible-inventory-pssid-ilab/playbooks/bootstrap.yml
 ```
 
+```
+ansible-playbook \
+  --user epcjr \
+  --ask-pass \
+  --ask-become-pass \
+  -i ansible-inventory-pssid-ilab/inventory \
+  ansible-inventory-pssid-ilab/playbooks/bootstrap.yml
+```
+
 Regular provisioning:
 
 Use Ansible ping to verify connectivity to targets:
@@ -79,10 +88,10 @@ Run the playbook:
 
 ```
 ansible-playbook \
+  --ask-pass \
   --ask-become-pass \
-  --become-method su \
   -i ansible-inventory-pssid-ilab/inventory \
-  pSSID.yml
+  elastic.yml
 ```
 
 # Management Commands:

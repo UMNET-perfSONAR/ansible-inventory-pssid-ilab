@@ -1,13 +1,11 @@
 # perfsonar.yml main perfSONAR config
 
-- name: perfSONAR archives
-  tags: 
-    - archives
+- name: bootstrap
   hosts:
-    - all
+    - elastic
   vars:
     - uids:
-      - abifox
+      #- abifox
       - epcjr
       - ithomps
       - kostyak
@@ -38,6 +36,9 @@
         key: "{{ lookup('file', '/home/{{ item }}/.ssh/id_rsa.pub') }}"
       with_items: "{{ uids }}"
       ignore_errors: yes
+
+    - name: end play
+      meta: end_play
 
     - name: disable dhcp
       lineinfile:
