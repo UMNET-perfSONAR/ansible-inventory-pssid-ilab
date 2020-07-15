@@ -2,24 +2,23 @@
 
 **Quick Start**:
 
-Fron Console:
-
+**RPi4 OS install**:
 Install Ubuntu 18 64 bit version:
-
 https://ubuntu.com/download/raspberry-pi
-
 Install on SD Card as per Ubuntu's instructions.
 
+from console:
 log on as ubuntu
-change ubuntu's password
+change user ubuntu and root password
 
 ```
 sudo -s
 passwd
 ```
 
-From bastion:
+**pSSID Bootstrap**:
 
+From bastion:
 Clone the playbook:
 
 ```
@@ -28,7 +27,6 @@ cd ansible-playbook-pSSID
 ```
 
 Clone this inventory in the playbook dir:
-
 ```
 git clone https://github.com/UMNET-perfSONAR/ansible-inventory-pssid-ilab.git
 ```
@@ -38,7 +36,7 @@ Get the required roles (ignore errors so we can run this multiple times):
 ```
 ansible-galaxy install -r requirements.yml --ignore-errors
 ansible-galaxy install \
-  -r ansible-inventory-netbasilisk-perfsonar/requirements.yml\
+  -r ansible-inventory-pssid-ilab/requirements.yml\
   --ignore-errors
 ```
 
@@ -46,7 +44,7 @@ clean out .ssh/known_hosts
 ssh to 154
 
 ```
-ansible all \
+ansible pSSID-testpoints \
   -u ubuntu --ask-pass --become-method sudo \
   -i ansible-inventory-pssid-ilab/inventory \
   -m ping
@@ -116,4 +114,29 @@ ansible ps-archives \
   -a "/usr/sbin/esmond_manage delete_user_ip_address USERNAME IPADDR"
 ```
 
+**Elastic Development**:
+
 ---
+
+```
+git clone https://github.com/UMNET-perfSONAR/ansible-playbook-pSSID.git
+cd ansible-playbook-pSSID
+cd roles
+git clone git@github.com:UMNET-perfSONAR/ansible-role-elastic.git
+cd ..
+git clone https://github.com/UMNET-perfSONAR/ansible-inventory-pssid-ilab.git
+ansible-galaxy install -r requirements.yml --ignore-errors
+ansible elastic \
+  --ask-pass \
+  --ask-become-pass \
+  --become-method sudo \
+  --inventory ansible-inventory-pssid-ilab/inventory \
+  -m ping
+ansible-playbook \
+  --ask-pass \
+  --ask-become-pass \
+  --become-method sudo \
+  --limit elastic, \
+  --inventory ansible-inventory-pssid-ilab/inventory \
+  pSSID.yml
+```
