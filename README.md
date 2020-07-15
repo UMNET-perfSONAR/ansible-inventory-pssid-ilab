@@ -118,6 +118,8 @@ ansible ps-archives \
 
 ---
 
+Bootstrap
+
 ```
 git clone https://github.com/UMNET-perfSONAR/ansible-playbook-pSSID.git
 cd ansible-playbook-pSSID
@@ -132,6 +134,11 @@ ansible elastic \
   --become-method sudo \
   --inventory ansible-inventory-pssid-ilab/inventory \
   -m ping
+```
+
+Provision Elastic
+
+```
 ansible-playbook \
   --ask-pass \
   --ask-become-pass \
