@@ -1,0 +1,38 @@
+# perfsonar.yml main perfSONAR config
+
+- name: perfSONAR archives
+  tags: 
+    - archives
+  hosts:
+    - all
+  vars:
+    - uids:
+      - abifox
+      #- epcjr
+      #- ithomps
+      #- kostyak
+      #- isaiyara
+
+  tasks:
+
+    - name: hosts.allow for bastion jumpboxes
+      lineinfile:
+        path: /etc/hosts.allow
+        line: "sshd: 141.211.160.28"
+
+    - name: hosts.deny sshd for everything else
+      lineinfile:
+        path: /etc/hosts.deny
+        line: "sshd: all"
+
+    - name: add users
+      user:
+        name: "{{ item }}"
+      with_items: "{{ uids }}"
+
+    - name: auth keys
+      authorized_key:
+        user: "{{ item }}"
+        key: "{{ lookup('file', '/home/{{ item }}/.ssh/id_rsa.pub') }}"
+      with_items: "{{ uids }}"
+      ignore_errors: yes

@@ -63,10 +63,19 @@ ansible-playbook \
 
 ```
 ansible-playbook \
-  --user epcjr \
   --ask-pass \
   --ask-become-pass \
   -i ansible-inventory-pssid-ilab/inventory \
+  --limit pssid-elk.miserver.it.umich.edu \
+  ansible-inventory-pssid-ilab/playbooks/miserver.yml
+```
+
+```
+ansible-playbook \
+  --ask-pass \
+  --ask-become-pass \
+  -i ansible-inventory-pssid-ilab/inventory \
+  --limit pssid-elk.miserver.it.umich.edu \
   ansible-inventory-pssid-ilab/playbooks/bootstrap.yml
 ```
 
@@ -89,30 +98,19 @@ ansible-playbook \
   --ask-pass \
   --ask-become-pass \
   -i ansible-inventory-pssid-ilab/inventory \
+  --limit pssid-elk.miserver.it.umich.edu \
+  elastic.yml
+```
+
+```
+ansible-playbook \
+  --ask-pass \
+  --ask-become-pass \
+  -i ansible-inventory-pssid-ilab/inventory \
   elastic.yml
 ```
 
 # Management Commands:
-
-Display auth interfaces on Archivers:
-
-```
-ansible ps-archives \
-  --ask-pass --ask-become-pass \
-  --become-method su \
-  -i ansible-inventory-netbasilisk-perfsonar/inventory \
-  -a "/usr/sbin/esmond_manage list_user_ip_address"
-```
-
-Delete an auth interface on Archivers:
-
-```
-ansible ps-archives \
-  --ask-pass --ask-become-pass \
-  --become-method su \
-  -i ansible-inventory-netbasilisk-perfsonar/inventory \
-  -a "/usr/sbin/esmond_manage delete_user_ip_address USERNAME IPADDR"
-```
 
 **Elastic Development**:
 
@@ -128,22 +126,40 @@ git clone git@github.com:UMNET-perfSONAR/ansible-role-elastic.git
 cd ..
 git clone https://github.com/UMNET-perfSONAR/ansible-inventory-pssid-ilab.git
 ansible-galaxy install -r requirements.yml --ignore-errors
+```
+
+Provision Elastic
+
+```
 ansible elastic \
   --ask-pass \
   --ask-become-pass \
   --become-method sudo \
   --inventory ansible-inventory-pssid-ilab/inventory \
   -m ping
-```
 
-Provision Elastic
-
-```
 ansible-playbook \
   --ask-pass \
   --ask-become-pass \
   --become-method sudo \
   --limit elastic, \
+  --inventory ansible-inventory-pssid-ilab/inventory \
+  pSSID.yml
+```
+
+Provision pSSID
+
+```
+ansible pSSID-testpoints \
+  --ask-become-pass \
+  --become-method su \
+  --inventory ansible-inventory-pssid-ilab/inventory \
+  -m ping
+
+ansible-playbook \
+  --ask-become-pass \
+  --become-method su \
+  --limit ansible pSSID-testpoints, \
   --inventory ansible-inventory-pssid-ilab/inventory \
   pSSID.yml
 ```

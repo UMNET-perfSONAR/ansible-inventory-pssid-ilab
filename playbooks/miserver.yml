@@ -1,0 +1,16 @@
+# perfsonar account creation
+
+- name: perfSONAR accounts
+  hosts:
+    - all
+  roles:
+    - ansible-role-miserver-management
+#  tasks:
+#    - name: provision accounts
+#      command: "/usr/local/sbin/ldgrp2accts --noverify {{ item }}"
+#      with_items: "{{ mcommunity_group_accounts }}"
+#      register: ldgrp2accts_result
+#
+#    - debug:
+#        msg: "{{ item }}"
+#      with_items: "{{ ldgrp2accts_result | json_query('results[].stdout') }}"

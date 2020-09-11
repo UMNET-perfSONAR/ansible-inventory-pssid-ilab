@@ -2,16 +2,16 @@
 
 - name: bootstrap
   hosts:
-    - elastic
+    - horst
   vars:
     - uids:
-      #- abifox
+      - abifox
       - epcjr
       - ithomps
       - kostyak
       - isaiyara
-    - address: 198.111.224.154
-    - gateway: 198.111.224.145
+    #- address: 198.111.224.154
+    #- gateway: 198.111.224.145
 
   tasks:
 
