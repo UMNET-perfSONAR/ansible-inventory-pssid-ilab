@@ -75,9 +75,11 @@ Use Ansible ping to verify connectivity to targets:
 # ansible ping as default user instead of ubuntu
 ```
 ansible all \
+  --become \
+  --become-method su \
+  --become-user root \
   --ask-become-pass \
   --ask-vault-pass \
-  --become-method su \
   -i ansible-inventory-pssid-ilab/inventory \
   -m ping
 ```
@@ -85,7 +87,10 @@ ansible all \
 # disable ubuntu account after we verify we can use our own account to become root
 ```
 ansible-playbook \
-  -u ubuntu --ask-become-pass --become-method sudo \
+  --become \
+  --become-method sudo \
+  --become-user root \
+  --ask-become-pass \
   --ask-vault-pass \
   -i ansible-inventory-pssid-ilab/inventory \
   ansible-inventory-pssid-ilab/playbooks/security.yml
