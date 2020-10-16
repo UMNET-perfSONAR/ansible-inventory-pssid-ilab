@@ -2,7 +2,7 @@
 
 - name: bootstrap
   hosts:
-    - horst
+    - pSSID-testpoints
   vars:
     - uids:
       #- abifox

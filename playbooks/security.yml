@@ -2,7 +2,7 @@
 
 - name: security
   hosts:
-    horst
+    pSSID-testpoints
 
   tasks:
     - name: disable ubuntu user
