@@ -15,22 +15,22 @@ ansible_become_user=root
 #ansible_become_method=su
 
 [horst:vars]
-ansible_become=True
-ansible_become_user=root
-ansible_become_method=sudo
-ansible_user=ansible
+#ansible_become=True
+#ansible_become_user=root
+#ansible_become_method=sudo
+#ansible_user=ansible
 
 [horst]
-198.111.224.157
+198.111.224.154
 
 [pSSID-testpoints]
 198.111.224.154
 
 [pSSID-testpoints:vars]
-ansible_become_method=su
+#ansible_become_method=su
 
 [elastic]
-pssid-elk.miserver.it.umich.edu
+#pssid-elk.miserver.it.umich.edu
 
 [elastic:vars]
-ansible_become_method=sudo
+#ansible_become_method=sudo

@@ -9,12 +9,8 @@ Install on SD Card as per Ubuntu's instructions.
 
 from console:
 log on as ubuntu
-change user ubuntu and root password
+change ubuntu password by hand
 
-```
-sudo -s
-passwd
-```
 
 **pSSID Bootstrap**:
 
@@ -43,6 +39,8 @@ ansible-galaxy install \
 clean out .ssh/known_hosts
 ssh to 154
 
+# NOTE: add root password change to bootstrap.yml
+# use a vault variable
 ```
 ansible pSSID-testpoints \
   -u ubuntu --ask-pass --become-method sudo \
@@ -54,28 +52,14 @@ become root
 clean out .ssh/known_hosts
 ssh to 154
 
+# proviion as ubuntu:
+# -root password
+# - ssh keys & accounts
 ```
 ansible-playbook \
   -u ubuntu --ask-pass --become-method sudo \
+  --ask-vault-pass \
   -i ansible-inventory-pssid-ilab/inventory \
-  ansible-inventory-pssid-ilab/playbooks/bootstrap.yml
-```
-
-```
-ansible-playbook \
-  --ask-pass \
-  --ask-become-pass \
-  -i ansible-inventory-pssid-ilab/inventory \
-  --limit pssid-elk.miserver.it.umich.edu \
-  ansible-inventory-pssid-ilab/playbooks/miserver.yml
-```
-
-```
-ansible-playbook \
-  --ask-pass \
-  --ask-become-pass \
-  -i ansible-inventory-pssid-ilab/inventory \
-  --limit pssid-elk.miserver.it.umich.edu \
   ansible-inventory-pssid-ilab/playbooks/bootstrap.yml
 ```
 
@@ -83,13 +67,28 @@ Regular provisioning:
 
 Use Ansible ping to verify connectivity to targets:
 
+# ansible ping as default user instead of ubuntu
 ```
 ansible all \
   --ask-become-pass \
+  --ask-vault-pass \
   --become-method su \
   -i ansible-inventory-pssid-ilab/inventory \
   -m ping
 ```
+
+# disable ubuntu account after we verify we can use our own account to become root
+```
+ansible-playbook \
+  -u ubuntu --ask-become-pass --become-method sudo \
+  --ask-vault-pass \
+  -i ansible-inventory-pssid-ilab/inventory \
+  ansible-inventory-pssid-ilab/playbooks/security.yml
+```
+
+# intall perfSONAR 
+# install pSSID
+#FINAL: run network.yml to set dest network
 
 Run the playbook:
 
@@ -151,6 +150,7 @@ Provision pSSID
 
 ```
 ansible pSSID-testpoints \
+  --ask-vault-pass \
   --ask-become-pass \
   --become-method su \
   --inventory ansible-inventory-pssid-ilab/inventory \
@@ -158,6 +158,7 @@ ansible pSSID-testpoints \
 
 ansible-playbook \
   --ask-become-pass \
+  --ask-vault-pass \
   --become-method su \
   --limit ansible pSSID-testpoints, \
   --inventory ansible-inventory-pssid-ilab/inventory \

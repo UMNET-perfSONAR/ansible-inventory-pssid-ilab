@@ -1,0 +1,10 @@
+# perfsonar.yml main perfSONAR config
+
+- name: security
+  hosts:
+    horst
+
+  tasks:
+    - name: disable ubuntu user
+      shell: 'passwd -l ubuntu'
+

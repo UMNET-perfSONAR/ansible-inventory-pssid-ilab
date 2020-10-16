@@ -5,16 +5,23 @@
     - horst
   vars:
     - uids:
-      - abifox
+      #- abifox
       - epcjr
-      - ithomps
-      - kostyak
       - isaiyara
     #- address: 198.111.224.154
     #- gateway: 198.111.224.145
 
   tasks:
-
+    - name: Include vars bootstrap_vars.yml
+      include_vars:
+        file: ../inventory/group_vars/all/bootstrap_vars.yml
+        name: bootstrap_vars
+    
+    - name: with_together
+      debug:
+        msg: "{{ item }} - {{ bootstrap_vars.users[item] }}"
+      with_items: "{{ uids }}"
+    
     - name: hosts.allow for bastion jumpboxes
       lineinfile:
         path: /etc/hosts.allow
@@ -30,67 +37,10 @@
         name: "{{ item }}"
       with_items: "{{ uids }}"
 
+# please change to use .yml file
     - name: auth keys
       authorized_key:
         user: "{{ item }}"
-        key: "{{ lookup('file', '/home/{{ item }}/.ssh/id_rsa.pub') }}"
+        key: "{{ bootstrap_vars.users[item] }}"
       with_items: "{{ uids }}"
       ignore_errors: yes
-
-    - name: end play
-      meta: end_play
-
-    - name: disable dhcp
-      lineinfile:
-        path: /etc/netplan/50-cloud-init.yaml
-        regexp: '^(.*)dhcp4'
-        line: '            dhcp4: no'
-
-    # XXX switch to proper variables
-    - name: add netplan config
-      blockinfile:
-        path: /etc/netplan/50-cloud-init.yaml
-        insertafter: 'dhcp4: no'
-        block: |
-          # Ansible block
-                      addresses: [{{ address }}/20]
-                      gateway4: {{ gateway }}
-                      nameservers:
-                          addresses: [127.0.0.53, 8.8.8.8]
-                      match:
-                          macaddress: dc:a6:32:07:63:47
-                      set-name: eth0
-                      routes:
-                      - to: 141.211.160.28
-                        via: {{ gateway }} 
-
-    - name: bring up wireless interface
-      command: ip link set wlan0 up
-
-    - name: ensure hostname in in hosts file
-      lineinfile:
-        path: /etc/hosts
-        regexp: '^127\.0\.0\.1'
-        line: '127.0.0.1 localhost ubuntu' 
-        insertbefore: BOF
-
-    - name: create wpa_supplicant
-      file:
-        path: /etc/wpa_supplicant/wpa_supplicant.conf
-        state: touch
-
-    # XXX pull wifi password from secerts file
-    - name: fill in basic info
-      blockinfile:
-        path: /etc/wpa_supplicant/wpa_supplicant.conf
-        block: |
-          ctrl_interface=/var/run/wpa_supplicant
-          update_config=1
-          network={
-              bssid=ADDRESS
-              ssid=SSID_NAME
-              identity="wifi-pi-test"
-              password="redacted_pass"
-              key_mgmt=WPA-EAP
-          }
-        insertbefore: BOF
