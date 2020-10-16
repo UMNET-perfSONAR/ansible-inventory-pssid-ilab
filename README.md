@@ -57,7 +57,12 @@ ssh to 154
 # - ssh keys & accounts
 ```
 ansible-playbook \
-  -u ubuntu --ask-pass --become-method sudo \
+  -u ubuntu \
+  --become \
+  --become-method sudo \
+  --become-user root \
+  --ask-pass \
+  --ask-become-pass \
   --ask-vault-pass \
   -i ansible-inventory-pssid-ilab/inventory \
   ansible-inventory-pssid-ilab/playbooks/bootstrap.yml
