@@ -14,15 +14,6 @@ ansible_become=True
 ansible_become_user=root
 #ansible_become_method=su
 
-[horst:vars]
-#ansible_become=True
-#ansible_become_user=root
-#ansible_become_method=sudo
-#ansible_user=ansible
-
-[horst]
-198.111.224.154
-
 [pSSID-testpoints]
 198.111.224.154
 
