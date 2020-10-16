@@ -88,7 +88,7 @@ ansible all \
 ```
 ansible-playbook \
   --become \
-  --become-method sudo \
+  --become-method su \
   --become-user root \
   --ask-become-pass \
   --ask-vault-pass \
