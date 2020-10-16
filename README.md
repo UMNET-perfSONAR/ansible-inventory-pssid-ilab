@@ -95,6 +95,37 @@ ansible-playbook \
   -i ansible-inventory-pssid-ilab/inventory \
   ansible-inventory-pssid-ilab/playbooks/security.yml
 ```
+```
+ansible-playbook \
+  --become \
+  --become-method su \
+  --become-user root \
+  --ask-become-pass \
+  --ask-vault-pass \
+  -i ansible-inventory-pssid-ilab/inventory \
+  ansible-inventory-pssid-ilab/playbooks/dhcp_network.yml
+```
+```
+ansible-playbook \
+  --become \
+  --become-method su \
+  --become-user root \
+  --ask-become-pass \
+  --ask-vault-pass \
+  -i ansible-inventory-pssid-ilab/inventory \
+  pSSID.yml
+```
+```
+ansible-playbook \
+  --become \
+  --become-method su \
+  --become-user root \
+  --ask-become-pass \
+  --ask-vault-pass \
+  -i ansible-inventory-pssid-ilab/inventory \
+  ansible-inventory-pssid-ilab/playbooks/static_network.yml
+```
+
 
 # intall perfSONAR 
 # install pSSID
