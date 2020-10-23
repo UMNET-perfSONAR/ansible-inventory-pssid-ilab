@@ -33,6 +33,8 @@
                       routes:
                       - to: 141.211.160.28
                         via: {{ gateway }} 
+                      - to: 141.211.160.46
+                        via: {{ gateway }} 
 
     - name: bring up wireless interface
       command: ip link set wlan0 up
