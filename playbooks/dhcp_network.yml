@@ -33,7 +33,7 @@
                       routes:
                       - to: 141.211.160.28
                         via: {{ gateway }} 
-                      - to: 141.211.160.46
+                      - to: 141.211.232.46
                         via: {{ gateway }} 
 
     - name: bring up wireless interface
