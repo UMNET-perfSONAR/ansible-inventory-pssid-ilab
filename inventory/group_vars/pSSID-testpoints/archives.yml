@@ -1,0 +1,14 @@
+archives:
+  - name:  "example_rabbitmq_archive"
+    archiver: "rabbitmq"
+    data: {
+      _url: "amqp://elastic:elastic@pssid-elk.miserver.it.umich.edu",
+      routing-key: "pscheduler_raw"
+    }
+
+  - name:  "example_syslog_archive"
+    archiver: "syslog"
+    data: {
+      ident: "pSSID22 result",
+      facility : "local3"
+    }

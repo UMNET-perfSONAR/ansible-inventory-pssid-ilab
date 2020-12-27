@@ -1,0 +1,52 @@
+BSSID_channels:
+  - name: "EduRoam_channels"
+    channels: [ 11, 12, 13, 14, 15 ]
+  - name: "MWireless_channels"
+    channels: [ 1, 2, 3, 4, 5, 10, 64, 11, 44, 36, ]
+
+SSID:
+  - name: "MWireless_profile"
+    SSID: "MWireless"
+    channels: "MWireless_channels"
+    channel_mismatch_warning: "true"
+    channel_mismatch_connect: "false"
+    min_signal: -73
+    min_qualifying: 5
+    auth: "true"
+    type: "User"
+    identity: "wifi-pi-test"
+    password: " MWireless_wpa_passwd "
+    paranoid: "false"
+    pscheduler_restart: "false"
+    apache_restart: "false"
+    postgres_restart: "false"
+    wait_time: 0
+  - name: "EduRoam_profile"
+    SSID: "eduroam"
+    channels: "EduRoam_channels"
+    channel_mismatch_warning: "true"
+    channel_mismatch_connect: "false"
+    min_signal: -65
+    min_qualifying: 5
+    auth: "true"
+    type: "User"
+    identity: "fakeUID"
+    password: "fakepassword"
+    paranoid: "true"
+    pscheduler_restart: "false"
+    apache_restart: "false"
+    postgres_restart: "false"
+    wait_time: 0
+
+SSID_groups:
+  - name: "all_profiles"
+    group: ["EduRoam_profile", "MWireless_profile"]
+
+BSSID_scans:
+  - name: "primary_BSSIDs"
+    interface: "primary_network_interface"
+    profiles: "all_profiles"
+    unknown_SSID_warning: "true"
+    schedule: [ "schedule_every_5_min" ]
+    priority: 1
+    meta_information: "probe_stats"

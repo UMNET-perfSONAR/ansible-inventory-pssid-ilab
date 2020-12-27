@@ -1,0 +1,62 @@
+- name: extracting identifiers
+  hosts:
+    - pSSID-testpoints
+  tasks:
+    - name: IDs
+      debug: 
+        msg:
+          - "{{ ansible_ssh_host }}"
+          - "{{ ansible_default_ipv4 }}"
+          - "{{ ansible_distribution }}"
+    
+    - name: Serial Number 
+      shell: 'cat /proc/cpuinfo | grep ^Serial | cut -d" " -f2' 
+      register: serial_number
+
+    - name: hardware Number 
+      shell: 'cat /proc/cpuinfo | grep ^Hardware | cut -d" " -f2' 
+      register: hardware_number
+    
+    - name: Create a directory if it does not exist
+      file:
+        path: "/home/isaiyara/temp/umich-pssid-info/serial/{{ serial_number.stdout }}"
+        state: directory
+        mode: '0755'    
+    
+    - name: copy identifiers info to a local file
+      blockinfile:
+        block: |
+          meta_information: "{{ meta_information | to_nice_json(indent=2) }}"
+          serial_number: "{{ serial_number.stdout }}"
+          hardware_number: "{{ hardware_number.stdout }}"
+          eth0.macaddress: "{{ ansible_eth0.macaddress }}"
+          wlan0.macaddress: "{{ ansible_wlan0.macaddress }}"
+        path: "/home/isaiyara/temp/umich-pssid-info/serial/{{ serial_number.stdout }}/hardware_info"
+        create: yes
+      connection: local
+      become: no
+      delegate_to: localhost
+    
+   # - name: copy macaddress to a local file
+   #   blockinfile:
+   #     block: |
+   #       "eth0.macaddress: {{ ansible_eth0.macaddress }}"
+   #       "wlan0.macaddress: {{ ansible_wlan0.macaddress }}"
+   #     path: "/home/isaiyara/temp/serial/{{ serial_number.stdout }}"
+   #   connection: local
+   #   become: no
+   #   delegate_to: localhost
+    
+   # - name: copy wlan0 to a local file
+   #   lineinfile:
+   #     line: "wlan0.macaddress: {{ ansible_wlan0.macaddress }}"
+   #     path: "/home/isaiyara/temp/serial/{{ serial_number.stdout }}"
+   #   connection: local
+   #   become: no
+   #   delegate_to: localhost
+   # 
+    #- name: Macaddresses
+    #  debug: 
+    #    msg: "{{ ansible_{{item}}.macaddress}}"
+    #  with_items: "{{ ansible_interfaces }}"
+    #    

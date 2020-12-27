@@ -1,0 +1,47 @@
+pssid_tasks:
+  - name: "example_task_rtt"
+    profiles: ["MWireless_profile"]
+    BSSIDs: "primary_BSSIDs"
+    test: [ "example_test_rtt" ]
+    archives: [ "example_rabbitmq_archive", "example_syslog_archive" ]
+    schedule: [ "schedule_every_1_hour", "schedule_Tuesday_10:10AM" ]
+    priority: 3
+    ttl: 45
+    meta_information: "probe_stats"
+  - name: "example_task_throughput"
+    profiles: "all_profiles"
+    BSSIDs: "primary_BSSIDs"
+    test: [ "example_test_throughput_ul", "example_test_throughput_dl" ]
+    archives: [ "example_rabbitmq_archive", "example_syslog_archive" ]
+    schedule:  [ "schedule_every_4_hours", "schedule_Tuesday_10:10AM" ]
+    priority: 2
+    ttl: 60
+    meta_information: "probe_stats"
+    throughput_threshold: 95000000
+  - name: "example_task_latency"
+    profiles: "all_profiles"
+    BSSIDs: "primary_BSSIDs"
+    test: [ "example_test_latency" ]
+    archives: [ "example_rabbitmq_archive", "example_syslog_archive" ]
+    schedule: [ "schedule_every_5_hours"]
+    priority: 4
+    ttl: 60
+    meta_information: "probe_stats"
+  - name: "example_task_http"
+    profiles: "all_profiles"
+    BSSIDs: "primary_BSSIDs"
+    test: [ "example_test_http_umich", "example_test_http_google" ]
+    archives: [ "example_rabbitmq_archive", "example_syslog_archive" ]
+    schedule: [ "schedule_every_2_hours"]
+    priority: 5
+    ttl: 60
+    meta_information: "probe_stats"
+  - name: "example_task_dns"
+    profiles: "all_profiles"
+    BSSIDs: "primary_BSSIDs"
+    test: [ "example_test_dns_a", "example_test_dns_aaaa" ]
+    archives: [ "example_rabbitmq_archive", "example_syslog_archive" ]
+    schedule: [ "schedule_every_1_hour"]
+    priority: 6
+    ttl: 60
+    meta_information: "probe_stats"

@@ -1,0 +1,15 @@
+- import_playbook: create_pssid_conf.yml
+
+- name: configuring pssid_conf.yml
+  hosts:
+    - pSSID-testpoints
+  tasks:
+    - name: debug
+      debug:
+        msg: "pssid conf test"
+
+    - name: end play
+      meta: end_play
+
+    - name: Restart pSSID
+      shell: python3 /usr/local/bin/pssid/pSSID.py /usr/local/bin/pssid/pssid_conf.json

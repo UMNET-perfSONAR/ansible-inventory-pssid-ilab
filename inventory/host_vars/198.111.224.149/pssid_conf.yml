@@ -1,0 +1,6 @@
+meta_information: {
+  probe_name: "{{ ansible_default_ipv4.address }}",
+  probe_location: "ilab",
+  probe_foo: "bar"
+}
+

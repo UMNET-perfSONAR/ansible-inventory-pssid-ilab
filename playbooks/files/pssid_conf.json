@@ -1,0 +1,138 @@
+{
+    "meta_information": {
+        "probe_stats": {
+            "probe_foor": "bar",
+            "probe_location": "Umich",
+            "probe_name": "localhost"
+            }
+    },    
+        
+
+    "archives": {
+        "example_rabbitmq_archive": {
+            "archiver": "rabbitmq",
+            "data": {
+                "routing-key": "pscheduler_raw",
+                "_url": "amqp://elastic:elastic@pssid-elk.miserver.it.umich.edu"
+                }
+        },
+        "example_syslog_archive": {
+            "archiver": "syslog",
+            "data": {
+                "ident": "pSSID22 result",
+                "facility": "local3"
+                }
+        }
+     
+    },
+    
+    "tests": {
+        "example_test_rtt": {
+            "type": "rtt",
+            "spec": {
+                "dest": "www.umich.edu"
+                }
+        },
+        "example_test_latency": {
+            "type": "latency",
+            "spec": {
+                "dest": "perfsonar-bin-arbl.umnet.umich.edu"
+                }
+        },
+        "example_test_throughput_ul": {
+            "type": "throughput",
+            "spec": {
+                "dest": "perfsonar-bin-arbl.umnet.umich.edu"
+                }
+        },
+        "example_test_throughput_dl": {
+            "type": "throughput",
+            "spec": {
+                "source": "perfsonar-bin-arbl.umnet.umich.edu"
+                }
+        },
+        "example_test_http_umich": {
+            "type": "http",
+            "spec": {
+                "url": "http://umich.edu"
+                }
+        },
+        "example_test_http_google": {
+            "type": "http",
+            "spec": {
+                "url": "http://google.com"
+                }
+        },
+        "example_test_dns_a": {
+            "type": "dns",
+            "spec": {
+                "query": "www.umich.edu",
+                "record": "a"
+                }
+        },
+        "example_test_dns_aaaa": {
+            "type": "dns",
+            "spec": {
+                "query": "www.umich.edu",
+                "record": "aaaa"
+                }
+        }
+    
+    },
+    
+
+    "schedules": {
+        "schedule_every_1_min": {
+            "repeat": "*/1 * * * *"
+        }
+    
+    },
+    
+    "BSSID_channels": {
+        "EduRoam_channels": [11, 12, 13, 14, 15],
+        "MWireless_channels": [1, 2, 3, 4, 5, 10, 64, 11, 44, 36]
+    
+    },
+    
+    
+    "SSID_groups": {
+        "all_profiles": ["EduRoam_profile","MWireless_profile"]
+    
+    },
+    
+    "network_interfaces": {
+        "primary_network_interface": "wlan0",
+        "future_network_interface": "wlan1"
+    
+    },
+    
+    "BSSID_scans" : {
+        "O_primary_BSSIDs": {
+            "interface":"primary_network_interface",
+            "profiles": "all_profiles",
+            "unknown_SSID_warning": true,
+            "schedule": ["schedule_every_5_min"],
+            "priority": 1,
+            "meta_information": "probe_stats"
+
+        }
+    
+    },
+    
+    "tasks": {
+        "example_task_override": {
+            "profiles":["O_MWireless_profile"],
+            "BSSIDs": "O_primary_BSSIDs",
+            "test": ["O_example_test_rtt"],
+            "archives": ["O_example_rabbitmq_archive","example_syslog_archive"],
+            "schedule": ["O_schedule_every_1_hour","schedule_Tuesday_10:10AM"],
+            "priority": 3,
+            "ttl": 45,
+            "meta_information": "probe_stats"
+
+        }
+    
+    }
+    
+}
+

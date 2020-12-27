@@ -1,0 +1,18 @@
+- name: creating pssid_conf.yml
+  hosts:
+    - pSSID-testpoints
+  tasks:
+    - name: Create pssid_conf.json
+      file:
+        path: /usr/local/bin/pssid/pssid_conf.json
+        state: touch
+
+    - name: Ansible Template Example
+      template:
+        src: files/template.j2
+        dest: /usr/local/bin/pssid/pssid_conf.json
+
+    - name: Validate archiver configurations
+      script: validate_archivers.py /usr/local/bin/pssid/pssid_conf.json
+      args:
+        executable: python3

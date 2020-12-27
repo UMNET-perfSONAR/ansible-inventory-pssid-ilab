@@ -1,0 +1,185 @@
+{
+    {% if meta_information is defined -%}
+    "meta_information": {
+        "probe_stats": {
+            {% for i,j in meta_information.items() -%}
+            "{{i}}": "{{j}}"{{ "," if not loop.last else "" }}
+            {% endfor -%}
+        }
+    },    
+    {% endif %}
+    
+
+    {% if archives is defined -%}
+    "archives": {
+    {% for i in archives %}
+    "{{i.name}}": {
+            "archiver": "{{i.archiver}}",
+            "data": {
+                {% for j,k in i.data.items() -%}
+                "{{j}}": "{{k}}"{{ "," if not loop.last else "" }}
+                {% endfor -%}
+
+            }
+        }{{ "," if not loop.last else ""}}
+    {% endfor %} 
+    },
+    {% endif %}
+
+    {% if tests is defined -%}
+    "tests": {
+    {% for i in tests %}
+    "{{i.name}}": {
+            "type": "{{i.type}}",
+            "spec": {
+                {% for j,k in i.spec.items() -%}
+                "{{j}}": "{{k}}"{{ "," if not loop.last else "" }}
+                {% endfor -%}
+
+            }
+        }{{ "," if not loop.last else ""}}
+    {% endfor %}
+
+    },
+    {% endif %}
+
+
+    {% if schedules is defined -%}
+    "schedules": {
+    {% for i in schedules %}
+    "{{i.name}}": {
+            "repeat": "{{i.repeat}}"
+        }{{ "," if not loop.last else ""}}
+    {% endfor %}
+
+    },
+    {% endif %}
+
+    {% if BSSID_channels is defined -%}
+    "BSSID_channels": {
+    {% for i in BSSID_channels %}
+    "{{i.name}}": {{i.channels}}{{ "," if not loop.last else ""}}
+    {% endfor %}
+
+    },
+    {% endif %}
+
+    {% if SSID_profiles is defined -%}
+    "SSID_profiles" : {
+    {% for i in SSID %}
+    "{{i.name}}": {
+            "SSID": "{{i.SSID}}",
+            "channels": "{{i.channels}}",
+            "channel_mismatch_warning": {{i.channel_mismatch_warning}},
+            "channel_mismatch_connect": {{i.channel_mismatch_connect}},
+            "min_signal": {{i.min_signal}},
+            "min_qualifying": {{i.min_qualifying}}, 
+            "AuthMethod": {
+                "type": "{{i.type}}",
+                "UID": "{{i.identity}}",
+                "Password": "{{i.password}}",
+                "connection_flags": {
+                    "paranoid": {{i.paranoid}},
+                    "pscheduler_restart": {{i.pscheduler_restart}},
+                    "apache_restart": {{i.apache_restart}},
+                    "postgres_restart": {{i.postgres_restart}},
+                    "wait_time": {{i.wait_time}}
+                }
+            }
+        }{{ "," if not loop.last else ""}}
+    {% endfor %}
+
+    },
+    {% endif %}
+
+    {% if SSID_groups is defined -%}
+    "SSID_groups": {
+    {% for i in SSID_groups %}
+    "{{i.name}}": [
+        {%- for j in i.group -%}
+            "{{j}}"{{ "," if not loop.last else "" }}
+        {%- endfor -%}
+        ]{{ "," if not loop.last else "" }}
+    {% endfor %}
+
+    },
+    {% endif %}
+
+    {% if network_interfaces is defined -%}
+    "network_interfaces": {
+    {% for i in network_interfaces %}
+    "{{i.name}}": "{{i.interface}}"{{ "," if not loop.last else "" }}
+    {% endfor %}
+
+    },
+    {% endif %}
+
+    {% if BSSID_scans is defined -%}
+    "BSSID_scans" : {
+    {% for i in BSSID_scans %}
+    "{{i.name}}": {
+            "interface":"{{i.interface}}",
+            "profiles": "{{i.profiles}}",
+            "unknown_SSID_warning": {{i.unknown_SSID_warning}},
+            "schedule": [
+            {%- for j in i.schedule -%}
+                "{{j}}"{{ "," if not loop.last else "" }}
+            {%- endfor -%}
+            ],
+            "priority": {{i.priority}},
+            "meta_information": "{{i.meta_information}}"
+
+        }{{ "," if not loop.last else "" }}
+    {% endfor %}
+
+    },
+    {% endif %}
+
+    {% if pssid_tasks is defined -%}
+    "tasks": {
+    {% for i in pssid_tasks %}
+    "{{i.name}}": {
+            "profiles": 
+            {%- if i.profiles is string -%}
+            "{{i.profiles}}",
+            {%- else -%}
+            [
+            {%- for j in i.profiles -%}
+                "{{j}}"{{ "," if not loop.last else "" }}
+            {%- endfor -%}
+            ],
+            {%- endif %}
+
+            "BSSIDs": "{{i.BSSIDs}}",
+            "test": [
+            {%- for j in i.test -%}
+                "{{j}}"{{ "," if not loop.last else "" }}
+            {%- endfor -%}
+            ],
+            "archives": [
+            {%- for j in i.archives -%}
+                "{{j}}"{{ "," if not loop.last else "" }}
+            {%- endfor -%}
+            ],
+            "schedule": [
+            {%- for j in i.schedule -%}
+                "{{j}}"{{ "," if not loop.last else "" }}
+            {%- endfor -%}
+            ],
+            "priority": {{i.priority}},
+            "ttl": {{i.ttl}},
+            "meta_information": "{{i.meta_information}}"
+            {%- if 'throughput_threshold' in i -%}
+            ,
+            "throughput_threshold": {{i.throughput_threshold}}
+            {% endif %}
+
+
+        }{{ "," if not loop.last else "" }}
+    {% endfor %}
+
+    }
+    {% endif %}
+
+}
+
