@@ -12,16 +12,11 @@
     #- gateway: 198.111.224.145
 
   tasks:
-    - name: Include vars bootstrap_vars.yml
-      include_vars:
-        file: ../inventory/group_vars/all/bootstrap_vars.yml
-        name: bootstrap_vars
-    
     - name: with_together
       debug:
-        msg: "{{ item }} - {{ bootstrap_vars.users[item] }}"
+        msg: "{{ item }} - {{ users[item] }}"
       with_items: "{{ uids }}"
-    
+
     - name: hosts.allow for bastion jumpboxes
       lineinfile:
         path: /etc/hosts.allow
@@ -41,6 +36,12 @@
     - name: auth keys
       authorized_key:
         user: "{{ item }}"
-        key: "{{ bootstrap_vars.users[item] }}"
+        key: "{{ users[item] }}"
       with_items: "{{ uids }}"
       ignore_errors: yes
+    
+    - name: Change root passwd
+      user:
+        name: root
+        update_password: always
+        password: "{{ root_passwd|password_hash('sha512') }}"

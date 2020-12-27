@@ -15,6 +15,9 @@
 #ansible_become_method=su
 
 [pSSID-testpoints]
+198.111.224.149
+198.111.224.150
+#198.111.224.151
 198.111.224.154
 
 [pSSID-testpoints:vars]
