@@ -1,13 +1,16 @@
 - name: extracting identifiers
   hosts:
     - pSSID-testpoints
+  vars:
+    - overwrite: "no"
+    - machine_changed: "yes"
   tasks:
     - name: IDs
       debug: 
         msg:
-          - "{{ ansible_ssh_host }}"
+          #- "{{ ansible_ssh_host }}"
           - "{{ ansible_default_ipv4 }}"
-          - "{{ ansible_distribution }}"
+          #- "{{ ansible_distribution }}"
     
     - name: Serial Number 
       shell: 'cat /proc/cpuinfo | grep ^Serial | cut -d" " -f2' 
@@ -17,16 +20,10 @@
       shell: 'cat /proc/cpuinfo | grep ^Hardware | cut -d" " -f2' 
       register: hardware_number
     
-    - name: Create a directory if it does not exist
-      file:
-        path: "/home/isaiyara/temp/umich-pssid-info/serial/{{ serial_number.stdout }}"
-        state: directory
-        mode: '0755'    
     
     - name: copy identifiers info to a local file
       blockinfile:
         block: |
-          meta_information: "{{ meta_information | to_nice_json(indent=2) }}"
           serial_number: "{{ serial_number.stdout }}"
           hardware_number: "{{ hardware_number.stdout }}"
           eth0.macaddress: "{{ ansible_eth0.macaddress }}"
@@ -36,27 +33,63 @@
       connection: local
       become: no
       delegate_to: localhost
+
     
-   # - name: copy macaddress to a local file
-   #   blockinfile:
-   #     block: |
-   #       "eth0.macaddress: {{ ansible_eth0.macaddress }}"
-   #       "wlan0.macaddress: {{ ansible_wlan0.macaddress }}"
-   #     path: "/home/isaiyara/temp/serial/{{ serial_number.stdout }}"
-   #   connection: local
-   #   become: no
-   #   delegate_to: localhost
+    - name: copy meta info to a local file
+      blockinfile:
+        block: |
+          meta_information: {{ meta_information | to_nice_json(indent=2) }}
+        path: "/home/isaiyara/temp/umich-pssid-info/serial/{{ serial_number.stdout }}/meta_info"
+        create: yes
+      connection: local
+      become: no
+      delegate_to: localhost
+
+
+    - name: check if probe_id file exists
+      stat:
+        path: "/home/isaiyara/temp/umich-pssid-info/probe_ids/{{ meta_information.probe_id }}"
+      register: stat_result
+      connection: local
+      become: no
+      delegate_to: localhost
     
-   # - name: copy wlan0 to a local file
-   #   lineinfile:
-   #     line: "wlan0.macaddress: {{ ansible_wlan0.macaddress }}"
-   #     path: "/home/isaiyara/temp/serial/{{ serial_number.stdout }}"
-   #   connection: local
-   #   become: no
-   #   delegate_to: localhost
-   # 
-    #- name: Macaddresses
-    #  debug: 
-    #    msg: "{{ ansible_{{item}}.macaddress}}"
-    #  with_items: "{{ ansible_interfaces }}"
-    #    
+    - name: checking if being run on the same machine
+      set_fact:
+        machine_changed: "no" 
+      when:  stat_result.stat.exists and stat_result.stat.lnk_target is search(serial_number.stdout)
+
+    - name: Warning
+      pause:
+        prompt: "Directory for {{ meta_information.probe_id }} already exists. Overwrite(default: no)? (yes/no)"
+      register: con_overwrite
+      when: stat_result.stat.exists and machine_changed | bool
+
+    - name: Change overwrite 
+      set_fact:
+        overwrite: "yes"
+      when: stat_result.stat.exists and machine_changed and con_overwrite.user_input | bool
+
+    - name: End play
+      meta: end_play
+      when: stat_result.stat.exists and machine_changed and not overwrite | bool
+
+    #- name: Create a directory if it does not exist
+    #  file:
+    #    path: "/home/isaiyara/temp/umich-pssid-info/probe_ids/{{ meta_information.probe_id }}"
+    #    state: directory 
+    #    mode: '0755'    
+    #  connection: local
+    #  become: no
+    #  delegate_to: localhost
+
+
+    - name: create a symlink
+      file:
+        src: "../serial/{{ serial_number.stdout }}"
+        dest: "/home/isaiyara/temp/umich-pssid-info/probe_ids/{{ meta_information.probe_id }}"
+        state: link
+      connection: local
+      become: no
+      delegate_to: localhost
+

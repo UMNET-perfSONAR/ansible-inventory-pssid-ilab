@@ -1,69 +1,81 @@
+# dhcp network setup using ifupdown and wpa_supplicant set up
 
-- name: dhcp network setup
+- name: Uninstall netplan and setup network using ifupdown
   hosts:
     - pSSID-testpoints
   vars:
     - macaddress: "{{ ansible_default_ipv4.macaddress }}"
     - address: "{{ ansible_ssh_host }}"
-    - gateway: 198.111.224.145
 
   tasks:
 
-#    - name: create wpa_supplicant
-#      debug:
-#        msg: "etc/wpa_supplicant/{{ item.SSID }}_wpa_supplicant.conf"
-#      with_items: "{{ SSID }}"
-#    
-#    - name: end play
-#      meta: end_play
+    - name: pause for 15 seconds
+      pause:
+        seconds: 15
 
-    - name: disable dhcp
-      lineinfile:
-        path: /etc/netplan/50-cloud-init.yaml
-        regexp: '^(.*)dhcp4'
-        line: '            dhcp4: no'
+#    - name: unmask, enable, restart networking
+#      systemd:
+#        name: networking
+#        state: restarted
+#        enabled: yes
+#        masked: no
 
-    # XXX switch to proper variables
-    # XXX need to add elastic route
-    - name: add netplan config
-      blockinfile:
-        path: /etc/netplan/50-cloud-init.yaml
-        insertafter: 'dhcp4: no'
-        block: |
-          # Ansible block
-                      addresses: [{{ address }}/20]
-                      gateway4: {{ gateway }}
-                      nameservers:
-                          addresses: [127.0.0.53, 8.8.8.8]
-                      match:
-                          macaddress: {{ macaddress }}
-                      set-name: eth0
-                      routes:
-                      - to: 141.211.160.28
-                        via: {{ gateway }} 
-                      - to: 141.211.232.46
-                        via: {{ gateway }} 
+
+    - name: disable systemd-networkd.socket 
+      systemd:
+        name: systemd-networkd.socket
+        state: stopped
+        enabled: no
+        masked: yes
+
+
+    - name: disable systemd-networkd 
+      systemd:
+        name: systemd-networkd
+        state: stopped
+        enabled: no
+        masked: yes
+
+
+    - name: disable networkd-dispatcher 
+      systemd:
+        name: networkd-dispatcher
+        state: stopped
+        enabled: no
+        masked: yes
+
+
+    - name: disable systemd-networkd-wait-online
+      systemd:
+        name: systemd-networkd-wait-online
+        state: stopped
+        enabled: no
+        masked: yes
+
 
     - name: bring up wireless interface
       command: ip link set wlan0 up
+
 
     - name: ensure hostname in in hosts file
       lineinfile:
         path: /etc/hosts
         regexp: '^127\.0\.0\.1'
-        line: '127.0.0.1 localhost ubuntu' 
+        line: '127.0.0.1 localhost ubuntu'
         insertbefore: BOF
+
 
     - name: create wpa_supplicant
       file:
-        path: "/etc/wpa_supplicant/{{ item.SSID }}_wpa_supplicant.conf"
+        path: "/etc/wpa_supplicant/wpa_supplicant_{{ item.SSID }}.conf"
         state: touch
       with_items: "{{ SSID }}"
 
-    # XXX pull wifi password from secerts file
+
+    # XXX pull wifi password from secrets file
     - name: fill in basic info
       blockinfile:
-        path: "/etc/wpa_supplicant/{{ item.SSID}}_wpa_supplicant.conf"
+        path: "/etc/wpa_supplicant/wpa_supplicant_{{ item.SSID}}.conf"
         block: |
           ctrl_interface=/var/run/wpa_supplicant
           update_config=1

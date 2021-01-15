@@ -1,0 +1,63 @@
+# dhcp network setup using ifupdown and wpa_supplicant set up
+
+- name: Uninstall netplan and setup network using ifupdown
+  hosts:
+    - pSSID-testpoints
+  vars:
+    - macaddress: "{{ ansible_default_ipv4.macaddress }}"
+    - address: "{{ ansible_ssh_host }}"
+
+  tasks:
+    - name: create dhclient hook script adds static route
+      file:
+        path: /etc/dhcp/dhclient-exit-hooks.d/add_static_routes
+        state: touch
+        mode: 0777
+
+    
+    - name: add iface information for dhcp networking 
+      blockinfile:
+        path: /etc/dhcp/dhclient-exit-hooks.d/add_static_routes
+        insertafter: EOF
+        marker: ""
+        block: |
+          #!/bin/bash
+          if [ ${interface} = eth0 ]; then
+                  case $reason in BOUND|RENEW|REBIND|REBOOT)
+                          ip route add 141.211.160.28 via "${new_routers}" dev eth0 proto static
+                          ip route add 141.211.232.46 via "${new_routers}" dev eth0 proto static
+                  ;;
+                  esac
+          fi 
+    
+    
+    - name: Remove blank lines from blockinfile
+      lineinfile:
+        path: /etc/dhcp/dhclient-exit-hooks.d/add_static_routes
+        state: absent
+        regexp: '^$'
+
+
+    - name: update and install ifupdown
+      apt: 
+        name: ifupdown
+        update_cache: yes
+
+
+    - name: add iface information for dhcp networking 
+      blockinfile:
+        path: /etc/network/interfaces
+        insertafter: EOF
+        marker: ""
+        block: |
+          auto lo
+          iface lo inet loopback
+
+          allow-hotplug eth0
+          auto eth0
+          iface eth0 inet dhcp
+
+
+    - name: bring down and bring up eth0
+      shell: 'ifdown --force eth0 lo && ifup -a'
+

@@ -40,8 +40,8 @@
       with_items: "{{ uids }}"
       ignore_errors: yes
     
-    - name: Change root passwd
-      user:
-        name: root
-        update_password: always
-        password: "{{ root_passwd|password_hash('sha512') }}"
+#    - name: Change root passwd
+#      user:
+#        name: root
+#        update_password: always
+#        password: "{{ root_passwd|password_hash('sha512') }}"

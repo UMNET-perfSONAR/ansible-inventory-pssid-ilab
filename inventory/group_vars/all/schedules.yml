@@ -5,6 +5,8 @@ schedules:
     repeat: "*/5 * * * *"
   - name: "schedule_every_10_min" 
     repeat: "*/10 * * * *"
+  - name: "schedule_every_15_min" 
+    repeat: "*/15 * * * *"
   - name: "schedule_every_1_hour" 
     repeat: "0 * * * *"
   - name: "schedule_every_2_hours" 

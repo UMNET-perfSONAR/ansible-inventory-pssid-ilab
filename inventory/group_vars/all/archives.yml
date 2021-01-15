@@ -9,6 +9,6 @@ archives:
   - name:  "example_syslog_archive"
     archiver: "syslog"
     data: {
-      ident: "pSSID22 result",
+      ident: "pSSID result",
       facility : "local3"
     }

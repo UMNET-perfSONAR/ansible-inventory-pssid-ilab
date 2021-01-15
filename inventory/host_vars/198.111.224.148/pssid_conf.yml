@@ -1,8 +1,8 @@
 meta_information:
   probe_ipv4: "{{ ansible_default_ipv4.address }}"
   probe_location: "Unknown"
-  probe_name: "pssid_3"
-  probe_id: "rpi4_armored_3"
+  probe_name: "pssid_2"
+  probe_id: "rpi4_armored_2"
 
 schedules:
   - name: "schedule_every_1_min"

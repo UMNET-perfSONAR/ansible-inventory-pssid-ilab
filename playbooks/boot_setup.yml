@@ -1,0 +1,50 @@
+# dhcp network setup using ifupdown and wpa_supplicant set up
+
+- name: Uninstall netplan and setup network using ifupdown
+  hosts:
+    - pSSID-testpoints
+  vars:
+    - macaddress: "{{ ansible_default_ipv4.macaddress }}"
+    - address: "{{ ansible_ssh_host }}"
+
+  tasks:
+    - name: create /etc/rc.local script
+      file:
+        path: /etc/rc.local
+        state: touch
+        mode: 0777
+
+    
+    - name: add commands to run after boot 
+      blockinfile:
+        path: /etc/rc.local
+        insertafter: EOF
+        marker: ""
+        block: |
+          #!/bin/sh
+          set -e
+          sleep 120
+          python3 /usr/local/bin/pssid/rpi_meta.py
+          sleep 5
+          ip link set wlan0 up
+          python3 /usr/local/bin/pssid/pSSID.py /usr/local/bin/pssid/pssid_conf.json > /home/pssid_output 2> /home/pssid_error
+          exit 0
+    
+    
+    - name: Remove blank lines from blockinfile
+      lineinfile:
+        path: /etc/rc.local
+        state: absent
+        regexp: '^$'
+
+     
+    - name: create rpi_meta.py
+      file:
+        path: /usr/local/bin/pssid/rpi_meta.py
+        state: touch
+
+    - name: Copy rpi_meta.py to remote machine
+      copy:
+        src: files/rpi_meta.py
+        dest: /usr/local/bin/pssid/
+
