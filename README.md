@@ -95,6 +95,21 @@ ansible-playbook \
   -i ansible-inventory-pssid-ilab/inventory \
   ansible-inventory-pssid-ilab/playbooks/security.yml
 ```
+
+# set up ifupdown: install ifupdown and bring up the interfaces
+ip addresses could change after this step
+```
+ansible-playbook \
+  --become  \
+  --become-method su \
+  --become-user root \
+  --ask-become-pass \
+  --ask-vault-pass \
+  -i ansible-inventory-pssid-ilab/inventory \
+  ansible-inventory-pssid-ilab/playbooks/ifupdown_setup.yml
+```
+
+# disable networkd and create wpa_supplicant
 ```
 ansible-playbook \
   --become \
@@ -105,6 +120,8 @@ ansible-playbook \
   -i ansible-inventory-pssid-ilab/inventory \
   ansible-inventory-pssid-ilab/playbooks/dhcp_network.yml
 ```
+
+# Install pSSID, pscheduler, rabbitmq
 ```
 ansible-playbook \
   --become \
@@ -115,6 +132,45 @@ ansible-playbook \
   -i ansible-inventory-pssid-ilab/inventory \
   pSSID.yml
 ```
+
+# Create pssid_conf.json for each pi
+for each pi, add directory in inventory/host_vars that holds config vars
+```
+ansible-playbook \
+  --become  \
+  --become-method su \
+  --become-user root \
+  --ask-become-pass \
+  --ask-vault-pass \
+  -i ansible-inventory-pssid-ilab/inventory \
+  ansible-inventory-pssid-ilab/playbooks/create_pssid_conf.yml
+```
+
+# boot script
+```
+ansible-playbook \
+  --become  \
+  --become-method su \
+  --become-user root \
+  --ask-become-pass \
+  --ask-vault-pass \
+  -i ansible-inventory-pssid-ilab/inventory \
+  ansible-inventory-pssid-ilab/playbooks/boot_setup.yml
+```
+
+# Extract identifiers from pi and save it locally
+```
+ansible-playbook \
+  --become  \
+  --become-method su \
+  --become-user root \
+  --ask-become-pass \
+  --ask-vault-pass \
+  -i ansible-inventory-pssid-ilab/inventory \
+  ansible-inventory-pssid-ilab/playbooks/extract_identifiers.yml
+```
+
+
 ```
 ansible-playbook \
   --become \
