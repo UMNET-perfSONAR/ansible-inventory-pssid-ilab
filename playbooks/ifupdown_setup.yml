@@ -57,7 +57,8 @@
           auto eth0
           iface eth0 inet dhcp
 
-
+# The next command will disconnect ssh and potentially change ip address
+# TODO: send ip address to host or remote machine after network comes back up
     - name: bring down and bring up eth0
       shell: 'ifdown --force eth0 lo && ifup -a'
 
