@@ -9,16 +9,16 @@
 
   tasks:
 
-    - name: pause for 15 seconds
-      pause:
-        seconds: 15
+    # - name: pause for 15 seconds
+    #   pause:
+    #     seconds: 15
 
-#    - name: unmask, enable, restart networking
-#      systemd:
-#        name: networking
-#        state: restarted
-#        enabled: yes
-#        masked: no
+   - name: unmask, enable, restart networking
+     systemd:
+       name: networking
+       state: restarted
+       enabled: yes
+       masked: no
 
 
     - name: disable systemd-networkd.socket 
