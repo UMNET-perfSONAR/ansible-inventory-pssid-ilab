@@ -12,7 +12,7 @@
       file:
         path: /etc/rc.local
         state: touch
-        mode: 0777
+        mode: 0755
 
     
     - name: add commands to run after boot 
@@ -23,6 +23,7 @@
         block: |
           #!/bin/sh
           set -e
+          # TODO: Find what program pSSID needs to wait for after reboot, instead of sleeping
           sleep 120
           python3 /usr/local/bin/pssid/rpi_meta.py
           sleep 5
@@ -37,14 +38,14 @@
         state: absent
         regexp: '^$'
 
-     
-    - name: create rpi_meta.py
-      file:
-        path: /usr/local/bin/pssid/rpi_meta.py
-        state: touch
+# rpi_meta is already in source control, will get cloned with pssid
+#     - name: create rpi_meta.py
+#       file:
+#         path: /usr/local/bin/pssid/rpi_meta.py
+#         state: touch
 
-    - name: Copy rpi_meta.py to remote machine
-      copy:
-        src: files/rpi_meta.py
-        dest: /usr/local/bin/pssid/
+#     - name: Copy rpi_meta.py to remote machine
+#       copy:
+#         src: files/rpi_meta.py
+#         dest: /usr/local/bin/pssid/
 
