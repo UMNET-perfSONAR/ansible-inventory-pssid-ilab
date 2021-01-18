@@ -167,4 +167,4 @@ ansible-playbook \
 
 
 # Elastic setup
-follow instructions at (ansible-playbook-elastic)[https://github.com/UMNET-perfSONAR/ansible-playbook-elastic]
+follow instructions at [ansible-playbook-elastic](https://github.com/UMNET-perfSONAR/ansible-playbook-elastic)
