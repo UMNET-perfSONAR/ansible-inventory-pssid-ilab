@@ -161,6 +161,7 @@ ansible-playbook \
   --become-user root \
   --ask-become-pass \
   --ask-vault-pass \
+  --extra-vars 'interactive="no"' \
   -i ansible-inventory-pssid-ilab/inventory \
   ansible-inventory-pssid-ilab/playbooks/extract_identifiers.yml
 ```
