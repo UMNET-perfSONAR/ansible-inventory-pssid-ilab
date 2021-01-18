@@ -28,7 +28,7 @@
           python3 /usr/local/bin/pssid/rpi_meta.py
           sleep 5
           ip link set wlan0 up
-          python3 /usr/local/bin/pssid/pSSID.py /usr/local/bin/pssid/pssid_conf.json > /home/pssid_output 2> /home/pssid_error
+          python3 /usr/local/bin/pssid/pSSID.py /usr/local/bin/pssid/pssid_conf.json --debug> /home/pssid_output 2> /home/pssid_error
           exit 0
     
     
