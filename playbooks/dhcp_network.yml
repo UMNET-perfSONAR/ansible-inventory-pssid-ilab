@@ -13,12 +13,12 @@
     #   pause:
     #     seconds: 15
 
-   - name: unmask, enable, restart networking
-     systemd:
-       name: networking
-       state: restarted
-       enabled: yes
-       masked: no
+#    - name: unmask, enable, restart networking
+#      systemd:
+#        name: networking
+#        state: restarted
+#        enabled: yes
+#        masked: no
 
 
     - name: disable systemd-networkd.socket 
@@ -57,7 +57,7 @@
       command: ip link set wlan0 up
 
 
-    - name: ensure hostname in in hosts file
+    - name: ensure localhost in in hosts file
       lineinfile:
         path: /etc/hosts
         regexp: '^127\.0\.0\.1'
@@ -72,7 +72,7 @@
       with_items: "{{ SSID }}"
 
 
-    # XXX pull wifi password from secrets file
+    # SSID var is defined in the inventory
     - name: fill in basic info
       blockinfile:
         path: "/etc/wpa_supplicant/wpa_supplicant_{{ item.SSID}}.conf"
