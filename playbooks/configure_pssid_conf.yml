@@ -1,6 +1,6 @@
 - import_playbook: create_pssid_conf.yml
 
-- name: configuring pssid_conf.yml
+- name: creating pssid_conf and restarting pssid with the new pssid_conf.yml
   hosts:
     - pSSID-testpoints
   tasks:
@@ -8,8 +8,8 @@
       debug:
         msg: "pssid conf test"
 
-    - name: end play
-      meta: end_play
+#     - name: end play
+#       meta: end_play
 
     - name: Restart pSSID
-      shell: python3 /usr/local/bin/pssid/pSSID.py /usr/local/bin/pssid/pssid_conf.json
+      shell: python3 /usr/local/bin/pssid/pSSID.py /usr/local/bin/pssid/pssid_conf.json > /home/pssid_output 2> /home/pssid_error
