@@ -36,9 +36,6 @@ Get the required roles (ignore errors so we can run this multiple times):
 
 ```
 ansible-galaxy install -r requirements.yml --ignore-errors
-ansible-galaxy install \
-  -r ansible-inventory-pssid-ilab/requirements.yml\
-  --ignore-errors
 ```
 
 
