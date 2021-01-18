@@ -42,27 +42,12 @@ ansible-galaxy install \
 ```
 
 
-**NOTE: add root password to inventory**
-use a vault variable
-```
-ansible-vault encrypt_string '<string_to_encrypt>' --name '<string_name_of_variable>'
-```
-add the vault variable to inventory
-```
-<string_name_of_variable>: !vault...
-```
-And add the the variable ansible_ssh_pass to the inventory as well:
-
-```
-ansible_ssh_pass: " {{ <string_name_of_variable> }} "
-```
-
 become root
 clean out .ssh/known_hosts
-ssh to <ip address>
+ssh to [ip address]
 
 **provision user accounts as ubuntu**
-- ssh keys & accounts:
+ssh keys & accounts:
 ```
 ansible-playbook \
   -u ubuntu \
@@ -92,7 +77,7 @@ ansible all \
   -m ping
 ```
 
-disable ubuntu account after we verify we can use our own account to become root
+disable ubuntu account after we verify we can use our own account to become root:
 ```
 ansible-playbook \
   --become \
@@ -105,7 +90,7 @@ ansible-playbook \
 ```
 
 set up ifupdown: install ifupdown and bring up the interfaces
-ip addresses could change after this step
+ip addresses could change after this step:
 ```
 ansible-playbook \
   --become  \
@@ -117,7 +102,7 @@ ansible-playbook \
   ansible-inventory-pssid-ilab/playbooks/ifupdown_setup.yml
 ```
 
-disable networkd and create wpa_supplicant
+disable networkd and create wpa_supplicant:
 ```
 ansible-playbook \
   --become \
@@ -129,7 +114,7 @@ ansible-playbook \
   ansible-inventory-pssid-ilab/playbooks/dhcp_network.yml
 ```
 
-Install pSSID, pscheduler, rabbitmq
+Install pSSID, pscheduler, rabbitmq:
 intall perfSONAR 
 install pSSID
 ```
@@ -144,7 +129,7 @@ ansible-playbook \
 ```
 
 Create pssid_conf.json for each pi
-for each pi, add directory in inventory/host_vars that holds config vars
+for each pi, add directory in inventory/host_vars that holds config vars:
 ```
 ansible-playbook \
   --become  \
@@ -156,7 +141,7 @@ ansible-playbook \
   ansible-inventory-pssid-ilab/playbooks/create_pssid_conf.yml
 ```
 
-boot script
+boot script:
 ```
 ansible-playbook \
   --become  \
@@ -168,7 +153,7 @@ ansible-playbook \
   ansible-inventory-pssid-ilab/playbooks/boot_setup.yml
 ```
 
-Extract identifiers from pi and save it locally
+Extract identifiers from pi and save it locally:
 ```
 ansible-playbook \
   --become  \
