@@ -152,17 +152,21 @@ ansible-playbook \
 
 Extract identifiers from pi and save it locally:
 ```
+cd ansible-inventory-pssid-ilab/playbooks
+git clone git@github.com:UMNET-perfSONAR/umich-pssid-info.git
+cd ../..
 ansible-playbook \
   --become  \
   --become-method su \
   --become-user root \
   --ask-become-pass \
   --ask-vault-pass \
-  --extra-vars 'interactive="no"' \
+  --extra-vars 'overwrite=False' \
   -i ansible-inventory-pssid-ilab/inventory \
   ansible-inventory-pssid-ilab/playbooks/extract_identifiers.yml
 ```
 
+Make sure push the umich-pssid-info.git contents
 
 # Elastic setup
 follow instructions at [ansible-playbook-elastic](https://github.com/UMNET-perfSONAR/ansible-playbook-elastic)

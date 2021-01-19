@@ -2,9 +2,9 @@
   hosts:
     - pSSID-testpoints
   vars:
-    - overwrite: "no"
-    - machine_changed: "yes"
-    - interactive: "no"
+    - overwrite: False
+    - machine_changed: True
+    - warn: True
   tasks:
     
     - name: Serial Number 
@@ -23,18 +23,21 @@
           hardware_number: "{{ hardware_number.stdout }}"
           eth0.macaddress: "{{ ansible_eth0.macaddress }}"
           wlan0.macaddress: "{{ ansible_wlan0.macaddress }}"
-        path: "/home/isaiyara/temp/umich-pssid-info/serial/{{ serial_number.stdout }}/hardware_info"
+        path: "{{ serial_directory }}/hardware_info"
         create: yes
       connection: local
       become: no
       delegate_to: localhost
 
-    
+    - name: dirs
+      debug:
+        msg: "{{ serial_directory }} and {{ probe_ids_directory }}"
+
     - name: copy meta info to a local file
       blockinfile:
         block: |
           meta_information: {{ meta_information | to_nice_json(indent=2) }}
-        path: "/home/isaiyara/temp/umich-pssid-info/serial/{{ serial_number.stdout }}/meta_info"
+        path: "{{ serial_directory }}/meta_info"
         create: yes
       connection: local
       become: no
@@ -43,45 +46,40 @@
 
     - name: check if probe_id file exists
       stat:
-        path: "/home/isaiyara/temp/umich-pssid-info/probe_ids/{{ meta_information.probe_id }}"
+        path: "{{ probe_ids_directory }}/README.md"
       register: stat_result
       connection: local
       become: no
       delegate_to: localhost
 
-
     - name: file content
       set_fact:
-        val: "{{ lookup('file', '/home/isaiyara/temp/umich-pssid-info/probe_ids/{{ meta_information.probe_id }}/README.md') }}"
+        val: "{{ lookup('file', '{{ probe_ids_directory }}/README.md') }}"
       when:  stat_result.stat.exists
 
     - name: checking if being run on the same machine
       set_fact:
-        machine_changed: "no" 
+        machine_changed: False 
+        warn: False
       when:  stat_result.stat.exists and val is search(serial_number.stdout)
 
-    - name: var
-      debug:
-        msg: "{{ interactive}}"
-
     - name: Warning
-      pause:
-        prompt: "Directory for {{ meta_information.probe_id }} already exists. Overwrite(default: no)? (yes/no)"
-      register: con_overwrite
-      when: interactive and machine_changed | bool
+      debug:
+        msg: "Directory for {{ meta_information.probe_id }} already exists"
+      when: warn  
 
-    - name: Change overwrite 
-      set_fact:
-        overwrite: "yes"
-      when: interactive and stat_result.stat.exists and machine_changed and con_overwrite.user_input | bool
+    #- name: Change overwrite 
+    #  set_fact:
+    #    overwrite: "yes"
+    #  when: stat_result.stat.exists and machine_changed and con_overwrite.user_input and interactive 
 
     - name: End play
       meta: end_play
-      when: stat_result.stat.exists and machine_changed and not overwrite | bool
+      when: warn and not overwrite | bool
 
     #- name: Create a directory if it does not exist
     #  file:
-    #    path: "/home/isaiyara/temp/umich-pssid-info/probe_ids/{{ meta_information.probe_id }}"
+    #    path: "umich-pssid-info/probe_ids/{{ meta_information.probe_id }}"
     #    state: directory 
     #    mode: '0755'    
     #  connection: local
@@ -92,7 +90,8 @@
     - name: create README.md file with linked serial folder
       lineinfile:
         line: "https://github.com/UMNET-perfSONAR/umich-pssid-info/tree/main/serial/{{ serial_number.stdout }}"
-        path: "/home/isaiyara/temp/umich-pssid-info/probe_ids/{{ meta_information.probe_id }}/README.md"
+        path: "{{ probe_ids_directory }}/README.md"
+        regexp: '^https'
         create: yes
       connection: local
       become: no
