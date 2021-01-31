@@ -73,6 +73,7 @@
 
 
     # SSID var is defined in the inventory
+    # identity and password need to be edited before running this playbook
     - name: fill in basic info
       blockinfile:
         path: "/etc/wpa_supplicant/wpa_supplicant_{{ item.SSID}}.conf"
