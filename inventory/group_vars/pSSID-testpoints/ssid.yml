@@ -14,8 +14,8 @@ SSID:
     min_qualifying: 5
     auth: "true"
     type: "User"
-    identity: "identity"
-    password: " MWireless_wpa_passwd "
+    identity: "{{MWireless_identity}}"
+    password: "{{ MWireless_wpa_passwd }}"
     paranoid: "false"
     pscheduler_restart: "false"
     apache_restart: "false"
@@ -30,8 +30,8 @@ SSID:
     min_qualifying: 5
     auth: "true"
     type: "User"
-    identity: "fakeUID"
-    password: "fakepassword"
+    identity: "{{eduroam_identity}}"
+    password: "{{ eduroam_wpa_passwd }}"
     paranoid: "true"
     pscheduler_restart: "false"
     apache_restart: "false"

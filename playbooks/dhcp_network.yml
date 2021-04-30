@@ -84,7 +84,7 @@
               bssid=ADDRESS
               ssid={{item.SSID}}
               identity="{{item.identity}}"
-              password="{{item.password}}"
+              password={{item.password}}
               key_mgmt=WPA-EAP
           }
         insertbefore: BOF
