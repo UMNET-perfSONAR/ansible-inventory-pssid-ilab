@@ -1,0 +1,83 @@
+meta_information:
+  probe_ipv4: "{{ ansible_default_ipv4.address }}"
+  probe_location: "Unknown"
+  probe_name: "{{ ansible_default_ipv4.address }}"
+  probe_id: "{{ ansible_default_ipv4.address }}"
+
+schedules:
+  - name: "schedule_every_1_min"
+    repeat: "*/1 * * * *"
+  - name: "schedule_every_5_min"
+    repeat: "*/5 * * * *"
+  - name: "schedule_every_10_min"
+    repeat: "*/10 * * * *"
+  - name: "schedule_every_15_min"
+    repeat: "*/15 * * * *"
+  - name: "schedule_every_1_hour"
+    repeat: "0 * * * *"
+  - name: "schedule_every_2_hours"
+    repeat: "0 */2 * * *"
+  - name: "schedule_every_4_hours"
+    repeat: "0 */4 * * *"
+  - name: "schedule_every_5_hours"
+    repeat: "0 */5 * * *"
+  - name: "schedule_Tuesday_10AM"
+    repeat: "0 10 * * 2"
+  - name: "schedule_Tuesday_10:10AM"
+    repeat: "10 10 * * 2"
+
+tests:
+  - name: "latency_perfsonar_seb"
+    type: "latency"
+    spec: {
+      dest: "perfsonar-bin-seb.umnet.umich.edu"
+    }
+  - name: "throughput_perfsonar_seb"
+    type: "throughput"
+    spec: {
+      dest: "perfsonar-bin-seb.umnet.umich.edu"
+    }
+  - name: "http_mguest_portal"
+    type: "http"
+    spec: {
+      url: "http://portal-mguest-lb.dsc.umich.edu"
+    }
+
+BSSID_scans: 
+  - name: "primary_BSSIDs"
+    interface: "primary_network_interface"
+    profiles: "all_profiles"
+    unknown_SSID_warning: "true"
+    schedule: [ "schedule_every_5_min" ]
+    priority: 1
+    meta_information: "probe_stats"
+
+pssid_tasks: 
+  - name: "throughput"
+    profiles: "all_profiles"
+    BSSIDs: "primary_BSSIDs"
+    test: [ "throughput_perfsonar_seb" ]
+    archives: [ "example_rabbitmq_archive", "example_syslog_archive" ]
+    schedule:  [ "schedule_every_15_min" ]
+    priority: 2
+    ttl: 60
+    meta_information: "probe_stats"
+    throughput_threshold: 95000000
+  - name: "latency"
+    profiles: "all_profiles"
+    BSSIDs: "primary_BSSIDs"
+    test: [ "latency_perfsonar_seb" ]
+    archives: [ "example_rabbitmq_archive", "example_syslog_archive" ]
+    schedule: [ "schedule_every_15_min"]
+    priority: 3 
+    ttl: 60
+    meta_information: "probe_stats"
+  - name: "http"
+    profiles: "all_profiles"
+    BSSIDs: "primary_BSSIDs"
+    test: [ "http_mguest_portal" ]
+    archives: [ "example_rabbitmq_archive", "example_syslog_archive" ]
+    schedule: [ "schedule_every_15_min"]
+    priority: 4
+    ttl: 60
+    meta_information: "probe_stats"

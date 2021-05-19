@@ -125,7 +125,7 @@ ansible-playbook \
 This playbook installs and sets dependencies necessary to run pSSID
 
 
-14. for each pi listed in hosts, create a directory named ip address of each host in `ansible-inventory-pssid-ilab/inventory/host_vars`. Define any necessary variable specific to the host within their host_vars directory
+14. for each pi listed in hosts, create a directory named ip address of each host in `ansible-inventory-pssid-ilab/inventory/host_vars`. Define any necessary variable specific to the host within their host_vars directory. If SSID authentication using macaddress is necessary, encrypt the macaddresses using ansible vault(use the same password used for other vaulted vars) and define them within specific host directory.
 
 
 15. Create a config file for pSSID to run with for each host

@@ -50,9 +50,9 @@ SSID_profiles:
     type: "macaddress"
     num_addresses: 3,
     macaddresses: [
-      "DC:A6:32:80:7C:07",
-      "DC:A6:32:80:7C:08",
-      "DC:A6:32:80:7C:09"
+      "{{macaddress1}}",
+      "{{macaddress2}}",
+      "{{macaddress3}}"
     ]
     paranoid: "true"
     pscheduler_restart: "false"
