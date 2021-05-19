@@ -1,8 +1,8 @@
 meta_information:
   probe_ipv4: "{{ ansible_default_ipv4.address }}"
-  probe_location: "Unknown"
-  probe_name: "{{ ansible_default_ipv4.address }}"
-  probe_id: "{{ ansible_default_ipv4.address }}"
+  probe_location: "Sean's desk (via s-ARBL3-1233-2)"
+  probe_name: "pSSID2"
+  probe_id: "pSSID2"
 
 schedules:
   - name: "schedule_every_1_min"

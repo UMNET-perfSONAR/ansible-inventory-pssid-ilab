@@ -73,10 +73,9 @@
 
 
     # SSID var is defined in the inventory
-    # identity and password need to be edited before running this playbook
     - name: fill in basic info
       blockinfile:
-        path: "/etc/wpa_supplicant/wpa_supplicant_{{ item.SSID}}.conf"
+        path: "/etc/wpa_supplicant/wpa_supplicant_{{ item.SSID }}.conf"
         block: |
           ctrl_interface=/var/run/wpa_supplicant
           update_config=1
@@ -89,3 +88,17 @@
           }
         insertbefore: BOF
       with_items: "{{ SSID }}"
+
+      # wpa conf for MSetup is different
+      - name: fill in basic info for MSetup
+      blockinfile:
+        path: "/etc/wpa_supplicant/wpa_supplicant_MSetup.conf"
+        block: |
+          ctrl_interface=/var/run/wpa_supplicant
+          update_config=1
+          network={
+              bssid=ADDRESS
+              ssid="MSetup"
+              key_mgmt=NONE
+          }
+        insertbefore: BOF

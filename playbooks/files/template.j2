@@ -9,6 +9,9 @@
     },    
     {% endif %}
     
+    {% if amqp_url is defined -%}
+    "amqp_url": "{{amqp_url}}",
+    {% endif %}
 
     {% if archives is defined -%}
     "archives": {
@@ -66,7 +69,7 @@
 
     {% if SSID_profiles is defined -%}
     "SSID_profiles" : {
-    {% for i in SSID %}
+    {% for i in SSID_profiles %}
     "{{i.name}}": {
             "SSID": "{{i.SSID}}",
             "channels": "{{i.channels}}",
@@ -76,8 +79,17 @@
             "min_qualifying": {{i.min_qualifying}}, 
             "AuthMethod": {
                 "type": "{{i.type}}",
-                "UID": "{{i.identity}}",
-                "Password": "{{i.password}}",
+                {% if i.type == 'user' -%}
+                "identity": "{{i.identity}}",
+                "password": "{{i.password}}",
+                {% else -%}
+                "num_addresses": {{i.num_addresses}}
+                "macaddresses": [
+                {% for j in i.macaddresses -%}
+                "{{j}}"{{ "," if not loop.last else ""}}
+                {% endfor -%}
+                ],
+                {% endif -%}
                 "connection_flags": {
                     "paranoid": {{i.paranoid}},
                     "pscheduler_restart": {{i.pscheduler_restart}},

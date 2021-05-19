@@ -1,14 +1,16 @@
+amqp_url: "amqp://{{ amqp_user }}:{{ amqp_passwd }}@pssid-elk.miserver.it.umich.edu"
+
 archives:
-  - name:  "example_rabbitmq_archive"
+  - name:  "rabbitmq_archive"
     archiver: "rabbitmq"
     data: {
-      _url: "amqp://elastic:elastic@pssid-elk.miserver.it.umich.edu",
+      _url: "{{ amqp_url }}",
       routing-key: "pscheduler_raw"
     }
 
-  - name:  "example_syslog_archive"
+  - name:  "syslog_archive"
     archiver: "syslog"
     data: {
-      ident: "pSSID result",
+      ident: "pSSID test result",
       facility : "local3"
     }

@@ -5,11 +5,8 @@
     - pSSID-testpoints
   vars:
     - uids:
-      #- abifox
       - epcjr
       - isaiyara
-    #- address: 198.111.224.154
-    #- gateway: 198.111.224.145
 
   tasks:
     - name: with_together
@@ -39,9 +36,3 @@
         key: "{{ users[item] }}"
       with_items: "{{ uids }}"
       ignore_errors: yes
-    
-#    - name: Change root passwd
-#      user:
-#        name: root
-#        update_password: always
-#        password: "{{ root_passwd|password_hash('sha512') }}"

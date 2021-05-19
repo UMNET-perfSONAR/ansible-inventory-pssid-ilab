@@ -8,8 +8,5 @@
       debug:
         msg: "pssid conf test"
 
-#     - name: end play
-#       meta: end_play
-
     - name: Restart pSSID
       shell: python3 /usr/local/bin/pssid/pSSID.py /usr/local/bin/pssid/pssid_conf.json > /home/pssid_output 2> /home/pssid_error

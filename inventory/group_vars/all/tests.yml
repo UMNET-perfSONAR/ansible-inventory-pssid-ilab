@@ -1,41 +1,41 @@
 tests:
-  - name: "example_test_rtt"
+  - name: "test_rtt"
     type: "rtt"
     spec: {
       dest: "www.umich.edu"
     }
-  - name: "example_test_latency"
+  - name: "test_latency"
     type: "latency"
     spec: {
       dest: "perfsonar-bin-arbl.umnet.umich.edu"
     }
-  - name: "example_test_throughput_ul"
+  - name: "test_throughput_ul"
     type: "throughput"
     spec: {
       dest: "perfsonar-bin-arbl.umnet.umich.edu"
     }
-  - name: "example_test_throughput_dl"
+  - name: "test_throughput_dl"
     type: "throughput"
     spec: {
       source: "perfsonar-bin-arbl.umnet.umich.edu"
     }
-  - name: "example_test_http_umich"
+  - name: "test_http_umich"
     type: "http"
     spec: {
       url: "http://umich.edu"
     }
-  - name: "example_test_http_google"
+  - name: "test_http_google"
     type: "http"
     spec: {
       url: "http://google.com"
     }
-  - name: "example_test_dns_a"
+  - name: "test_dns_a"
     type: "dns"
     spec: {
       query: "www.umich.edu",
       record: "a"
     }
-  - name: "example_test_dns_aaaa"
+  - name: "test_dns_aaaa"
     type: "dns"
     spec: {
       query: "www.umich.edu",
