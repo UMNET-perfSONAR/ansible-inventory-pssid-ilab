@@ -76,8 +76,17 @@
             "min_qualifying": {{i.min_qualifying}}, 
             "AuthMethod": {
                 "type": "{{i.type}}",
-                "UID": "{{i.identity}}",
-                "Password": "{{i.password}}",
+                {% if i.type == 'user' -%}
+                "identity": "{{i.identity}}",
+                "password": "{{i.password}}",
+                {% else -%}
+                "num_addresses": {{i.num_addresses}}
+                "macaddresses": [
+                {% for j in i.macaddresses %}
+                "{{j}}"{{ "," if not loop.last else ""}}
+                {% endfor %}
+                ],
+                {% endif %}
                 "connection_flags": {
                     "paranoid": {{i.paranoid}},
                     "pscheduler_restart": {{i.pscheduler_restart}},

@@ -3,9 +3,6 @@
 - name: Uninstall netplan and setup network using ifupdown
   hosts:
     - pSSID-testpoints
-  vars:
-    - macaddress: "{{ ansible_default_ipv4.macaddress }}"
-    - address: "{{ ansible_ssh_host }}"
 
   tasks:
     - name: create /etc/rc.local script
@@ -38,14 +35,4 @@
         state: absent
         regexp: '^$'
 
-# rpi_meta is already in source control, will get cloned with pssid
-#     - name: create rpi_meta.py
-#       file:
-#         path: /usr/local/bin/pssid/rpi_meta.py
-#         state: touch
-
-#     - name: Copy rpi_meta.py to remote machine
-#       copy:
-#         src: files/rpi_meta.py
-#         dest: /usr/local/bin/pssid/
 
