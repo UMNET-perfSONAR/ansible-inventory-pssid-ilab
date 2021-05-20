@@ -7,7 +7,7 @@ meta_information:
 pssid_tasks:
   - name: "task_rtt"
     profiles: ["MWireless_profile"]
-    BSSIDs: "primary_BSSID_scan"
+    BSSIDs: "primary_BSSIDs"
     test: [ "test_rtt" ]
     archives: [ "rabbitmq_archive", "syslog_archive" ]
     schedule: [ "schedule_every_1_hour", "schedule_Tuesday_10:10AM" ]
@@ -26,7 +26,7 @@ pssid_tasks:
     throughput_threshold: 95000000
   - name: "task_latency"
     profiles: "WPA_encrypted_profiles"
-    BSSIDs: "primary_BSSID_scan"
+    BSSIDs: "primary_BSSIDs"
     test: [ "test_latency" ]
     archives: [ "rabbitmq_archive", "syslog_archive" ]
     schedule: [ "schedule_every_5_hours"]
@@ -35,19 +35,19 @@ pssid_tasks:
     meta_information: "probe_stats"
   - name: "task_http"
     profiles: "WPA_encrypted_profiles"
-    BSSIDs: "primary_BSSID_scan"
+    BSSIDs: "primary_BSSIDs"
     test: [ "test_http_umich", "test_http_google" ]
     archives: [ "rabbitmq_archive", "syslog_archive" ]
     schedule: [ "schedule_every_2_hours"]
     priority: 5
-    ttl: 60
+    ttl: 90
     meta_information: "probe_stats"
   - name: "task_dns"
     profiles: "WPA_encrypted_profiles"
-    BSSIDs: "primary_BSSID_scan"
+    BSSIDs: "primary_BSSIDs"
     test: [ "test_dns_a", "test_dns_aaaa" ]
     archives: [ "rabbitmq_archive", "syslog_archive" ]
     schedule: [ "schedule_every_1_hour"]
     priority: 6
-    ttl: 60
+    ttl: 90
     meta_information: "probe_stats"

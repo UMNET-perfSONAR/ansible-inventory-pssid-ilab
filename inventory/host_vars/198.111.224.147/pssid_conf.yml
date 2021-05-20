@@ -60,7 +60,7 @@ pssid_tasks:
     archives: [ "example_rabbitmq_archive", "example_syslog_archive" ]
     schedule:  [ "schedule_every_15_min" ]
     priority: 2
-    ttl: 60
+    ttl: 90
     meta_information: "probe_stats"
     throughput_threshold: 95000000
   - name: "latency"
@@ -70,7 +70,7 @@ pssid_tasks:
     archives: [ "example_rabbitmq_archive", "example_syslog_archive" ]
     schedule: [ "schedule_every_15_min"]
     priority: 3 
-    ttl: 60
+    ttl: 90
     meta_information: "probe_stats"
   - name: "http"
     profiles: "all_profiles"
@@ -79,5 +79,5 @@ pssid_tasks:
     archives: [ "example_rabbitmq_archive", "example_syslog_archive" ]
     schedule: [ "schedule_every_15_min"]
     priority: 4
-    ttl: 60
+    ttl: 90
     meta_information: "probe_stats"

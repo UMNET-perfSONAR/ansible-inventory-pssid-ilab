@@ -1,8 +1,8 @@
 meta_information:
   probe_ipv4: "{{ ansible_default_ipv4.address }}"
-  probe_location: "Unknown"
-  probe_name: "{{ ansible_default_ipv4.address }}"
-  probe_id: "{{ ansible_default_ipv4.address }}"
+  probe_location: "s-UGLI-1007-2 ge-0/0/30"
+  probe_name: "pSSID1"
+  probe_id: "pSSID1"
 
 schedules:
   - name: "schedule_every_1_min"
@@ -60,7 +60,7 @@ pssid_tasks:
     archives: [ "example_rabbitmq_archive", "example_syslog_archive" ]
     schedule:  [ "schedule_every_15_min" ]
     priority: 2
-    ttl: 60
+    ttl: 90
     meta_information: "probe_stats"
     throughput_threshold: 95000000
   - name: "latency"
@@ -70,7 +70,7 @@ pssid_tasks:
     archives: [ "example_rabbitmq_archive", "example_syslog_archive" ]
     schedule: [ "schedule_every_15_min"]
     priority: 3 
-    ttl: 60
+    ttl: 90
     meta_information: "probe_stats"
   - name: "http"
     profiles: "all_profiles"
@@ -79,5 +79,5 @@ pssid_tasks:
     archives: [ "example_rabbitmq_archive", "example_syslog_archive" ]
     schedule: [ "schedule_every_15_min"]
     priority: 4
-    ttl: 60
+    ttl: 90
     meta_information: "probe_stats"

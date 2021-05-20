@@ -67,7 +67,7 @@ SSID_groups:
     group: ["EduRoam_profile", "MWireless_profile"]
 
 BSSID_scans:
-  - name: "primary_BSSID_scan"
+  - name: "primary_BSSIDs"
     interface: "primary_network_interface"
     profiles: "all_profiles"
     unknown_SSID_warning: "true"
