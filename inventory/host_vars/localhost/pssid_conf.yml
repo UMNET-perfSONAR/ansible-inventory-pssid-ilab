@@ -18,11 +18,11 @@ BSSID_scans:
     meta_information: "probe_stats"
 
 pssid_tasks: 
-  - name: "example_task_override"
+  - name: "task_override"
     profiles: ["O_MWireless_profile"]
     BSSIDs: "O_primary_BSSIDs"
-    test: [ "O_example_test_rtt" ]
-    archives: [ "O_example_rabbitmq_archive", "example_syslog_archive" ]
+    test: [ "O_test_rtt" ]
+    archives: [ "O_rabbitmq_archive", "syslog_archive" ]
     schedule: [ "O_schedule_every_1_hour", "schedule_Tuesday_10:10AM" ]
     priority: 3
     ttl: 45

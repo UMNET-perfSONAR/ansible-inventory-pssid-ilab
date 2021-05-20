@@ -57,7 +57,7 @@ pssid_tasks:
     profiles: "all_profiles"
     BSSIDs: "primary_BSSIDs"
     test: [ "throughput_perfsonar_seb" ]
-    archives: [ "example_rabbitmq_archive", "example_syslog_archive" ]
+    archives: [ "rabbitmq_archive", "syslog_archive" ]
     schedule:  [ "schedule_every_15_min" ]
     priority: 2
     ttl: 90
@@ -67,7 +67,7 @@ pssid_tasks:
     profiles: "all_profiles"
     BSSIDs: "primary_BSSIDs"
     test: [ "latency_perfsonar_seb" ]
-    archives: [ "example_rabbitmq_archive", "example_syslog_archive" ]
+    archives: [ "rabbitmq_archive", "syslog_archive" ]
     schedule: [ "schedule_every_15_min"]
     priority: 3 
     ttl: 90
@@ -76,7 +76,7 @@ pssid_tasks:
     profiles: "all_profiles"
     BSSIDs: "primary_BSSIDs"
     test: [ "http_mguest_portal" ]
-    archives: [ "example_rabbitmq_archive", "example_syslog_archive" ]
+    archives: [ "rabbitmq_archive", "syslog_archive" ]
     schedule: [ "schedule_every_15_min"]
     priority: 4
     ttl: 90
