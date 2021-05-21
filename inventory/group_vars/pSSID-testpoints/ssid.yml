@@ -54,6 +54,8 @@ SSID_profiles:
       "{{macaddress2}}",
       "{{macaddress3}}"
     ]
+    identity: 'temp'
+    password: 'temp'
     paranoid: "true"
     pscheduler_restart: "false"
     apache_restart: "false"
