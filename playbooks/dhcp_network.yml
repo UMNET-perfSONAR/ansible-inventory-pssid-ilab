@@ -64,6 +64,11 @@
         line: '127.0.0.1 localhost ubuntu'
         insertbefore: BOF
 
+    - name: set dhclient connection timeout
+      lineinfile:
+        path: /etc/dhcp/dhclient.conf
+        regexp: '^timeout'
+        line: 'timeout 45;'
 
     - name: create wpa_supplicant
       file:
