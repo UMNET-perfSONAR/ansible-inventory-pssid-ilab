@@ -1,8 +1,8 @@
 meta_information:
-  probe_ipv4: "{{ ansible_default_ipv4.address }}"
+  probe_ipv4: "{{ ansible_ssh_host}}"
   probe_location: "Unknown"
-  probe_name: "{{ ansible_default_ipv4.address }}"
-  probe_id: "{{ ansible_default_ipv4.address }}"
+  probe_name: "{{ ansible_ssh_host}}"
+  probe_id: "{{ ansible_ssh_host}}"
 
 pssid_tasks:
   - name: "task_rtt"

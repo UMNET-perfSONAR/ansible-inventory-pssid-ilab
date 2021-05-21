@@ -1,5 +1,5 @@
 meta_information:
-  probe_ipv4: "{{ ansible_default_ipv4.address }}"
+  probe_ipv4: "{{ ansible_ssh_host}}"
   probe_location: "Unknown"
   probe_name: "pssid_2"
   probe_id: "rpi4_armored_2"
