@@ -75,7 +75,7 @@
 
     - name: End play
       meta: end_play
-      when: warn and not overwrite | bool
+      when: not machine_changed and warn and not overwrite | bool
 
     #- name: Create a directory if it does not exist
     #  file:
