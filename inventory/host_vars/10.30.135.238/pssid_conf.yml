@@ -1,5 +1,5 @@
 meta_information:
   probe_ipv4: "{{ ansible_ssh_host}}"
   probe_location: "Sean's desk (via s-ARBL3-1233-2)"
-  probe_name: "pSSID2"
-  probe_id: "pSSID2"
+  probe_name: "pSSID_ilab"
+  probe_id: "pSSID_ilab_acrylic"

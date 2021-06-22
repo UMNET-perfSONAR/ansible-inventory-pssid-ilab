@@ -12,7 +12,7 @@ SSID_profiles:
     channels: "MWireless_channels"
     channel_mismatch_warning: "true"
     channel_mismatch_connect: "false"
-    min_signal: -73
+    min_signal: -85
     min_qualifying: 2
     auth: "true"
     type: "user"
@@ -28,7 +28,7 @@ SSID_profiles:
     channels: "eduroam_channels"
     channel_mismatch_warning: "true"
     channel_mismatch_connect: "false"
-    min_signal: -65
+    min_signal: -85
     min_qualifying: 2
     auth: "true"
     type: "user"
@@ -44,7 +44,7 @@ SSID_profiles:
     channels: "MSetup_channels"
     channel_mismatch_warning: "true"
     channel_mismatch_connect: "false"
-    min_signal: -65
+    min_signal: -85
     min_qualifying: 2
     auth: "true"
     type: "macaddress"
@@ -54,6 +54,8 @@ SSID_profiles:
       "{{macaddress2}}",
       "{{macaddress3}}"
     ]
+    identity: 'temp'
+    password: 'temp'
     paranoid: "true"
     pscheduler_restart: "false"
     apache_restart: "false"
