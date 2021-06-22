@@ -94,8 +94,8 @@
         insertbefore: BOF
       with_items: "{{ SSID_profiles }}"
 
-      # wpa conf for MSetup is different
-      - name: fill in basic info for MSetup
+    # wpa conf for MSetup is different
+    - name: fill in basic info for MSetup
       blockinfile:
         path: "/etc/wpa_supplicant/wpa_supplicant_MSetup.conf"
         block: |
@@ -104,6 +104,19 @@
           network={
               bssid=ADDRESS
               ssid="MSetup"
+              key_mgmt=NONE
+          }
+        insertbefore: BOF
+
+    - name: fill in basic info for MGuest
+      blockinfile:
+        path: "/etc/wpa_supplicant/wpa_supplicant_MGuest.conf"
+        block: |
+          ctrl_interface=/var/run/wpa_supplicant
+          update_config=1
+          network={
+              bssid=ADDRESS
+              ssid="MGuest"
               key_mgmt=NONE
           }
         insertbefore: BOF
