@@ -93,6 +93,8 @@
           }
         insertbefore: BOF
       with_items: "{{ SSID_profiles }}"
+      ignore_errors: yes
+
 
     # wpa conf for MSetup is different
     - name: fill in basic info for MSetup

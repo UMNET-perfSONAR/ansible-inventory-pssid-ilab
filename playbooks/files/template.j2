@@ -82,6 +82,8 @@
                 {% if i.type == 'user' -%}
                 "identity": "{{i.identity}}",
                 "password": "{{i.password}}",
+		{% elif i.type == 'captive_portal' -%}
+		"search_exp": "{{i.search_exp}}",
                 {% else -%}
                 "num_addresses": {{i.num_addresses}}
                 "macaddresses": [
