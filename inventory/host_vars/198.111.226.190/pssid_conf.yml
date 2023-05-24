@@ -1,5 +1,0 @@
-meta_information:
-  probe_ipv4: "{{ ansible_ssh_host}}"
-  probe_location: "ilab" 
-  probe_name: "acrylic2"
-  probe_id: "acrylic2"

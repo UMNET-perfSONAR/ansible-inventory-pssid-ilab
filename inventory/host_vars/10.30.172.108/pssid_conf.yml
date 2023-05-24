@@ -1,5 +1,0 @@
-meta_information:
-  probe_ipv4: "{{ ansible_ssh_host}}"
-  probe_location: "s-UGLI-1007-2 ge-0/0/30"
-  probe_name: "pSSID1"
-  probe_id: "pSSID1_armored"

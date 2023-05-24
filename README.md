@@ -200,3 +200,26 @@ ansible-playbook \
 Make sure push the umich-pssid-info.git contents
 
 pSSID should start everytime the probe is restarted
+
+
+ansible-playbook  \
+  --inventory ../ansible-inventory-pssid-ilab/inventory \
+  --user ubuntu \
+  --ask-pass  \
+  --become  \
+  --become-method su  \
+  --become-user root  \
+  --ask-become-pass  \
+  bootstrap.yml 
+
+ansible all \
+  --inventory ../ansible-inventory-pssid-ilab/inventory \
+  --user ubuntu \
+  --ask-pass \
+  --become \
+  --become-method su \
+  --become-user root \
+  --ask-become-pass \
+  -m ping
+
+

@@ -10,30 +10,9 @@
 #
 # Full perfSONAR hosts inventory grouped by installation bundle
 [all:vars]
-#ansible_become=True
-#ansible_become_user=root
-#ansible_become_method=su
 
 [pSSID-testpoints]
-#10.30.135.238
-#198.111.226.156
-#198.111.226.187
-#198.111.226.147
-#198.111.226.157
-#198.111.226.164
-#198.111.226.148
-#198.111.226.172
-#198.111.226.180
-10.30.172.108
-10.30.138.188
-10.30.155.251
-10.30.110.201
-
-[pSSID-testpoints:vars]
-#ansible_become_method=su
-
-[elastic]
-#pssid-elk.miserver.it.umich.edu
-
-[elastic:vars]
-#ansible_become_method=sudo
+198.111.226.184
+198.111.226.182
+198.111.226.179
+198.111.226.190

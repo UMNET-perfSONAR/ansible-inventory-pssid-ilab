@@ -1,2 +1,0 @@
-serial_directory: "umich-pssid-info/serial/{{ serial_number.stdout }}"
-probe_ids_directory: "umich-pssid-info/probe_ids/{{ meta_information.probe_id }}"
