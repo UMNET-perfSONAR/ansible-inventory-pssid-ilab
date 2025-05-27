@@ -11,7 +11,7 @@
 # Full perfSONAR hosts inventory grouped by installation bundle
 [all:vars]
 
-[pSSID-testpoints]
+[bare-metal]
 198.111.226.184
 198.111.226.182
 198.111.226.179
