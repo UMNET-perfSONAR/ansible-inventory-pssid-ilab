@@ -6,6 +6,7 @@ bootstrap_jumpboxes:
   - 141.211.160.28
   - 141.211.217.198
   - 141.211.217.212
+  - 141.211.160.83
 #bootstrap_user_group: nobody
 bootstrap_users: 
   - epcjr
