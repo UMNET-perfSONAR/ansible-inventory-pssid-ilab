@@ -3,16 +3,17 @@
 
 # group vars
 bootstrap_jumpboxes:
-  - 141.211.160.28
-  - 141.211.217.198
-  - 141.211.217.212
   - 141.211.160.83
+  - 141.211.5.100
+  - 141.211.5.230
+  - 141.211.5.239
 #bootstrap_user_group: nobody
 bootstrap_users: 
   - epcjr
   - ibefidi
-  - kayleyg
-  - alvinjg
+  - rayankdm
+  - shilinc
+  - cooperf
 bootstrap_key_url: https://raw.githubusercontent.com/UMNET-perfSONAR/bastion-ssh-keys/main
 
 # host vars
